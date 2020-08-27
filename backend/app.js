@@ -7,7 +7,7 @@ const xss = require('xss-clean'); //Protège des attaques de type XSS
 
 const dotenv = require('dotenv').config();
 
-const postRoutes = require('./routes/post');
+const postRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 
 const app = express();
@@ -26,8 +26,11 @@ app.use((req, res, next) => {
     next();
 });
 
-//parser des données récupérées
+//parser des requêtes de content-type : application/json
 app.use(bodyParser.json());
+
+//parser les requêtes au content-type: application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

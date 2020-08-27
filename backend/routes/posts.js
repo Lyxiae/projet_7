@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+//IMportation des controllers
+const postsCtrl = require('../controllers/posts');
+
 // Route POST, pour poster un message
 router.post('/', postsCtrl.createPost);
 
@@ -18,5 +21,10 @@ router.get('/', postsCtrl.getAllPosts);
 
 //Route GET pour afficher un post et ses commentaires
 router.get('/:id', postsCtrl.getOnePost);
+
+// // simple route
+// router.get("/", (req, res) => {
+//     res.json({ message: "Route GET accomplie" });
+//   });
 
 module.exports = router;
