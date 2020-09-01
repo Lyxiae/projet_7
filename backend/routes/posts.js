@@ -8,7 +8,7 @@ const postsCtrl = require('../controllers/posts');
 router.post('/', postsCtrl.createPost);
 
 // Route POST pour les likes/dislikes
-router.post('/:id/like', postsCtrl.addLikeDislike);
+router.post('/:id/like', postsCtrl.likeSystem);
 
 // Route PUT pour modifier un post créé
 router.put('/:id', postsCtrl.modifyPost);
@@ -21,10 +21,5 @@ router.get('/', postsCtrl.getAllPosts);
 
 //Route GET pour afficher un post et ses commentaires
 router.get('/:id', postsCtrl.getOnePost);
-
-// // simple route
-// router.get("/", (req, res) => {
-//     res.json({ message: "Route GET accomplie" });
-//   });
 
 module.exports = router;

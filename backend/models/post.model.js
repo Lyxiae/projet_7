@@ -28,11 +28,11 @@ Post.getAll = result => {
             console.log('error: ', err);
             result(null, err);
             return;
-          }
+        }
       
-          console.log("Posts: ", res);
-          result(null, res);
-        });
+        console.log("Posts: ", res);
+        result(null, res);
+    });
 };
 
 Post.getOne = (postId, result) => {
@@ -64,6 +64,12 @@ Post.update = (id, post, result) => {
                 result(null, err);
                 return;
             }
+            if (res.affectedRows == 0) {
+                result({ kind: 'not_found'}, null);
+                return;
+            }
+            console.log('Post mis à jour !');
+            result(null, {id: id, ...post});
         }
     );
 };
@@ -86,8 +92,6 @@ Post.delete = (id, result) => {
         result(null, res);
     });
 };
-
-
 
 
 
