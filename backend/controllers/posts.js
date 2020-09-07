@@ -109,7 +109,7 @@ exports.modifyPost = (req, res, next) => {
     });
 };
 
-//Logique métier pour likePost
+//Logique métier pour likeSystem
 
 exports.likeSystem = (req, res, next) => {
     if (!req.body) {
@@ -151,3 +151,4 @@ exports.likeSystem = (req, res, next) => {
         })
     }
 }
+
