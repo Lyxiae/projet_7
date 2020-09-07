@@ -1,13 +1,28 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-nav mr-auto">
+        <router-link to="/" class="navbar-brand">Home</router-link> | 
+        <router-link :to="'/posts/' + userId" class="nav-item">Voir mes messages postés</router-link> |
+        <router-link to="/posts/add" class="nav-item">Poster un message</router-link> 
+      </div>
+      <div>
+        <router-link to="/edituser" class="nav-item">Éditer mon profil</router-link>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
-
+<script>
+  export default {
+    name: "App",
+    data() {
+      return {
+        userId: Math.floor(Math.random() * Math.floor(9999))
+      }
+    }
+  }
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -17,9 +32,16 @@
   color: #2c3e50;
 }
 
-#nav {
+nav {
   padding: 30px;
-
+  align-content:center;
+  .navbar-nav {
+    align-content:center;
+    align-items:center;
+    .nav-item {
+      padding:10px;
+      }
+    }
   a {
     font-weight: bold;
     color: #2c3e50;
