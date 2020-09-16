@@ -1,12 +1,8 @@
 <script>
 import postsQueries from "../services/postsQueries"
-import Editor from '@tinymce/tinymce-vue'
 
 export default {
     name: 'AddPost',
-    components: {
-     'editor': Editor
-   },
     data() {
         return {
             post: {
@@ -50,22 +46,8 @@ export default {
             <input type="file" class="form-control-file" id="post-image">
         </div>
         <div class="form-group">
-            <editor
-            api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
-            :init="{
-                height: 500,
-                menubar: false,
-                plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar:
-                'undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help'
-            }"
-            />
+            <label for="post-content">Ajouter une image</label>
+            <input type="textarea" class="form-control" id="post-content">
         </div>
         <button class="btn btn-success" @click="savePost">Poster</button>
     </div>
