@@ -5,12 +5,18 @@ import PostDetail from '../views/PostDetail.vue'
 import AddPost from '../views/AddPost.vue'
 import UserPosts from '../views/UserPosts.vue'
 import EditPost from '../views/EditPost.vue'
+import CreateUser from '../views/CreateUser.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path:'/signup',
+    name:'CreateUser',
+    component: CreateUser
   },
   {
     path: '/EditUser',
@@ -36,7 +42,7 @@ const routes = [
     path:'/posts/add',
     name:'AddPost',
     component: AddPost
-  }
+  },
 ]
 
 const router = createRouter({

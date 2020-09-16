@@ -14,4 +14,10 @@ router.post('/signup', verifyPassword, userCtrl.signup);
 //Route POST pour la connexion d'un utilisateur
 router.post('/login', bouncer.block, userCtrl.login);
 
+//Route GET pour la recherche d'un utilisateur (affichage du profil)
+router.get('/', bouncer.block, userCtrl.getOneUser);
+
+//Route PUT pour la modification d'un utilisateur (affichage du profil)
+router.put('/:id', bouncer.block, userCtrl.update);
+
 module.exports = router;

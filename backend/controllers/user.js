@@ -61,3 +61,49 @@ exports.login = (req, res, next) => {
     })
     
 }
+
+//Logique métier pour getOne
+exports.getOneUser = (req, res, next) => {
+    User.getOneId(req.body.id, (err, data) => {
+        if (err) {
+            if (err.kind === 'not_found') {
+                res.status(404).send({
+                    message: `Cet utilisateur n'existe pas ou plus.`
+                });
+            } else {
+                res.status(500).send({
+                    message: err.message || 'Erreur lors de la réception du post'
+                });
+            }
+        } else {
+             res.send(data);
+        }
+    })
+};
+
+//Logique métier pour modifyPost
+exports.update = (req, res, next) => {
+    // Validation de la requête
+    if (!req.body) {
+        res.status(400).send({
+            message: 'Le contenu de la requête ne doit pas être vide !'
+        });
+    }
+    
+
+    User.update(req.params.id, new User(req.body), (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message:  `Cet utilisateur n'existe pas ou plus.`
+                });
+            } else {
+                res.status(500).send({
+                    message: 'Erreur lors de la modification utilisateur'
+                });
+            }
+        } else {
+            res.send(data);
+        }
+    });
+};
