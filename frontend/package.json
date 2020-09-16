@@ -5,12 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "sass": "sass --watch public/scss/_main.scss:public/style.css"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^3.2.2",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "moment": "^2.28.0",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0"
   },

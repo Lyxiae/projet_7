@@ -9,6 +9,7 @@ const Post = function(post) {
     this.image = post.image
 };
 
+//Création d'un post
 Post.create = (newPost, result) => {
     sql.query("INSERT INTO Posts SET ?", newPost, (err, res) => {
         if (err) {
@@ -22,6 +23,7 @@ Post.create = (newPost, result) => {
     })
 };
 
+//Récupération de tous les posts
 Post.getAll = result => {
     sql.query("SELECT * FROM Posts", (err, res) => {
         if (err) {
@@ -35,28 +37,22 @@ Post.getAll = result => {
     });
 };
 
-Post.getFromUser = (req, result) => {
-    console.log(req.body.userId);
-    sql.query(`SELECT * FROM Posts WHERE userId = ?`, req.body.userId, (err, res) => {
+//Récupération d'un post d'après l'userId pour l'affichage des posts de l'utilisateur actif - NON FONCTIONNEL
+Post.getFromUser = (userId, result) => {
+
+    sql.query(`SELECT * FROM Posts WHERE userId = ${userId}`, (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(err, null);
+            console.log('error: ', err);
+            result(null, err);
             return;
         }
-
-        // if (res.length) {
-        //     console.log('Posts trouvés:', res);
-        //     result(null, res);
-        //     return;
-        // }
-
-        // //pas trouvé avec l'id
-        // result({ kind: 'not_found' }, null);
-        console.log("Posts:", res);
+      
+        console.log("Posts: ", res);
         result(null, res);
     });
 };
 
+//Récupération d'un post d'après son identifiant
 Post.getOne = (postId, result) => {
     sql.query(`SELECT * FROM Posts WHERE id = ${postId}`, (err, res) => {
         if (err) {
@@ -76,6 +72,7 @@ Post.getOne = (postId, result) => {
     })
 }
 
+//Mise à jour d'un post
 Post.update = (id, post, result) => {
     sql.query (
         "UPDATE Posts SET postTitle = ?, content = ?, image = ? WHERE id = ?",
@@ -96,6 +93,7 @@ Post.update = (id, post, result) => {
     );
 };
 
+//Suppression d'un post
 Post.delete = (id, result) => {
     sql.query("DELETE FROM Posts WHERE id = ?", id, (err, res) => {
         if (err) {

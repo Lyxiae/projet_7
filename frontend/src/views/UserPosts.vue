@@ -21,8 +21,9 @@ export default {
   name: 'UserPosts',
   data() {
     return {
+      userId:3,
       posts: [],
-      userId:4,
+      
     }
   },
   methods: {

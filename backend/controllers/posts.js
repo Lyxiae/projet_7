@@ -63,7 +63,7 @@ exports.getAllPosts = (req, res, next) => {
 
 //Logique métier pour getUserPosts
 exports.getUserPosts = (req, res, next) => {
-    Post.getFromUser((err, data) => {
+    Post.getFromUser(req.params.userId, (err, data) => {
         if (err) {
             if (err.kind === 'not_found') {
                 res.status(404).send({

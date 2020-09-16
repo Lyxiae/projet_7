@@ -11,6 +11,7 @@ const User = function(user) {
     this.birthday = user.birthday
 };
 
+//Création d'un utilisateur
 User.create = (newUser, result) => {
     sql.query("INSERT INTO Users SET ?", newUser, (err, res) => {
         if (err) {
@@ -24,6 +25,7 @@ User.create = (newUser, result) => {
     })
 };
 
+//Récupération d'un utilisateur d'après son adresse email pour le login
 User.getOne = (email, result) => {
     sql.query(`SELECT * FROM Users WHERE email = '${email}'`, (err, res) => {
         if (err) {
@@ -43,6 +45,7 @@ User.getOne = (email, result) => {
     })
 }
 
+//Récupération d'un utilisateur d'après son id pour l'affichage du profil
 User.getOneId = (id, result) => {
     sql.query(`SELECT * FROM Users WHERE id = ${id}`, (err, res) => {
         if (err) {
@@ -62,6 +65,7 @@ User.getOneId = (id, result) => {
     })
 }
 
+//Mise à jour d'un utilisateur après requête.
 User.update = (id, user, result) => {
     sql.query (
         "UPDATE Users SET surname = ?, firstname = ?, avatarUrl = ?, email = ? WHERE id = ?",

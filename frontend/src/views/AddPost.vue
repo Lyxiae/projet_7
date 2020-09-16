@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-    <div class="post-form">
+    <div id="post-form">
         <div class="form-group">
             <label for="post-title">Titre du post</label>
             <input type="text" class="form-control" v-model="post.postTitle" id ="post-title" placeholder="Titre du post">
@@ -46,7 +46,7 @@ export default {
             <input type="file" class="form-control-file" id="post-image">
         </div>
         <div class="form-group">
-            <label for="post-content">Ajouter une image</label>
+            <label for="post-content">Contenu du message</label>
             <input type="textarea" class="form-control" id="post-content">
         </div>
         <button class="btn btn-success" @click="savePost">Poster</button>
@@ -59,8 +59,13 @@ export default {
         text-decoration:none;
     }
 
-    .post-form {
+    #post-form {
         width:80%;
         margin:0 auto;
+    }
+    .form-group {
+        label {
+            font: normal normal 600 1.2rem/130% 'Raleway', sans-serif;
+        }
     }
 </style>

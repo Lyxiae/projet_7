@@ -20,7 +20,7 @@ router.delete('/:id', postsCtrl.deletePost);
 router.get('/', postsCtrl.getAllPosts);
 
 // Route GET pour afficher la liste des messages postés par un utilisateur
-router.get('/myposts/:userId', postsCtrl.getUserPosts);
+router.get('/user/:userId', postsCtrl.getUserPosts);
 
 //Route GET pour afficher un post et ses commentaires
 router.get('/:id', postsCtrl.getOnePost);
