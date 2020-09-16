@@ -4,6 +4,7 @@ import EditUser from '../views/EditUser.vue'
 import PostDetail from '../views/PostDetail.vue'
 import AddPost from '../views/AddPost.vue'
 import UserPosts from '../views/UserPosts.vue'
+import EditPost from '../views/EditPost.vue'
 
 const routes = [
   {
@@ -22,7 +23,12 @@ const routes = [
     component: PostDetail
   },
   {
-    path:'/posts/:userid',
+    path: '/posts/:id/edit',
+    name: 'EditPost',
+    component: EditPost
+  },
+  {
+    path:'/posts/myposts/:userid',
     name:'UserPosts',
     component: UserPosts
   },

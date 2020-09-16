@@ -1,62 +1,47 @@
 <template>
+
   <div class="home">
     <section class="postlist">
       <h2>Posts récents</h2>
-      <PostsList 
-      v-for="item in listePosts"
-      :id="item.id"
-      :title="item.title"
-      :content="item.content"
-      :image="item.image"
-      :key="item.title"
-      />
+      <div class="post-item" v-for="post in posts"
+      :key="post.postTitle">
+        <h2>
+          <h3><router-link :to="'/posts/' + post.id">{{ post.postTitle }}</router-link></h3>
+        </h2>
+        <img :src="post.image"/>
+      </div>
     </section>
     
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import PostsList from '@/components/PostsList.vue'
+import postsQueries from "../services/postsQueries"
 
 export default {
   name: 'Home',
   components: {
-    PostsList
   },
   data() {
     return {
-      listePosts : [
-        {
-          id:1,
-          title: 'Titre du post 1',
-          content: 'Contenu du post 1',
-          image: {
-            source: 'images/logo.png',
-            alt: 'Logo'
-            }
+      posts: [],
+    }
+  },
+  methods: {
+        getPosts() {
+            postsQueries.getAll()
+            .then(response => {
+                this.posts = response.data;
+                console.log(response.data)
+            })
+            .catch(e => {
+                console.log(e)
+            });
         },
-        {
-          id:2,
-          title: 'Titre du post 2',
-          content: 'Contenu du post 2',
-          image: {
-            source: 'images/logo.png',
-            alt: 'Logo'
-            }
-        },
-        {
-          id:3,
-          title: 'Titre du post 3',
-          content: 'Contenu du post 3',
-          image: {
-            source: 'images/logo.png',
-            alt: 'Logo'
-            }
-        }
         
-      ]
-    }
-    }
+    },
+  mounted() {
+      this.getPosts();
+  }
 }
 </script>

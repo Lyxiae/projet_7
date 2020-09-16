@@ -8,10 +8,10 @@ const userCtrl = require('../controllers/user');
 //Importation du middleware verifyPassword pour la vérification de la complexité du mot de passe
 const verifyPassword = require('../middleware/verifyPassword');
 
-// //Route POST pour l'inscription d'un utilisateur
-// router.post('/signup', verifyPassword, userCtrl.signup);
+//Route POST pour l'inscription d'un utilisateur
+router.post('/signup', verifyPassword, userCtrl.signup);
 
-// //Route POST pour la connexion d'un utilisateur
-// router.post('/login', bouncer.block, userCtrl.login);
+//Route POST pour la connexion d'un utilisateur
+router.post('/login', bouncer.block, userCtrl.login);
 
 module.exports = router;

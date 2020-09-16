@@ -35,6 +35,28 @@ Post.getAll = result => {
     });
 };
 
+Post.getFromUser = (req, result) => {
+    console.log(req.body.userId);
+    sql.query(`SELECT * FROM Posts WHERE userId = ?`, req.body.userId, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        // if (res.length) {
+        //     console.log('Posts trouvés:', res);
+        //     result(null, res);
+        //     return;
+        // }
+
+        // //pas trouvé avec l'id
+        // result({ kind: 'not_found' }, null);
+        console.log("Posts:", res);
+        result(null, res);
+    });
+};
+
 Post.getOne = (postId, result) => {
     sql.query(`SELECT * FROM Posts WHERE id = ${postId}`, (err, res) => {
         if (err) {

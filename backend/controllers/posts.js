@@ -61,7 +61,24 @@ exports.getAllPosts = (req, res, next) => {
         })
     };
 
-
+//Logique métier pour getUserPosts
+exports.getUserPosts = (req, res, next) => {
+    Post.getFromUser((err, data) => {
+        if (err) {
+            if (err.kind === 'not_found') {
+                res.status(404).send({
+                    message: `Ce post n'existe pas ou plus.`
+                });
+            } else {
+                res.status(500).send({
+                    message: err.message || 'Erreur lors de la réception du post'
+                });
+            }
+        } else {
+             res.send(data);
+            }
+        })
+    };
 
 //Logique métier pour getOnePost
 exports.getOnePost = (req, res, next) => {

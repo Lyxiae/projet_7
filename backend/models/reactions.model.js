@@ -6,7 +6,7 @@ const e = require('express');
 const Reaction = function(reaction) {
     this.userId = reaction.userId,
     this.postId = reaction.postId,
-    this.reaction = reaction.reactionId
+    this.reaction = reaction.reaction
 };
 
 Reaction.like = (reaction, result) => {
@@ -24,8 +24,8 @@ Reaction.like = (reaction, result) => {
 };
 
 Reaction.cancel = (req, result) => {
-    console.log(req);
-    sql.query (`DELETE FROM Reactions WHERE userId=${req.body.userId} AND postId=${req.body.postId};`, (err, res) => {
+    console.log(req.body);
+    sql.query (`DELETE FROM Reactions WHERE userId= ? AND postId= ?;`, [req.body.userId, req.body.postId] , (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

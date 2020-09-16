@@ -1,35 +1,61 @@
 <template>
     <div class="post-details">
-        <h2>{{ title }}</h2>
+        <h2>{{ post.postTitle }}</h2>
+        <p>{{ post.date_posted }}</p>
         <img
             class="menu-item__image"
-            :src="image.source"
-            :alt="image.alt"
+            :src="post.image"
         />
-        <p>{{ content }}</p>
+        <p>{{ post.content }}</p>
+        <div class="post-actions">
+            <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
+            <button class="btn btn-warning" @click="gotoUpdatePost">Editer ce post</button>
+        </div>
     </div>
-    
 </template>
 
 <script>
-
+import postsQueries from "../services/postsQueries"
 
 export default {
+
     name: 'PostDetail',
     components: {
 
     },
-    data() {
-        return {
-            id:1,
-            title: 'Titre du post 1',
-            content: 'Contenu du post 1',
-            image: {
-                source: 'images/logo.png',
-                alt: 'Logo'
-                }
-        }
+  data() {
+    return {
+      post: [],
     }
+  },
+  methods: {
+        getPost(id) {
+            postsQueries.getOne(id)
+            .then(response => {
+                this.post = response.data;
+                console.log(response.data)
+            })
+            .catch(e => {
+                console.log(e)
+            });
+        },
+        deletePost(id) {
+            postsQueries.delete(id)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push({ name: "Home" });
+            })
+            .catch(e => {
+                console.log(e)
+            });
+        },
+        gotoUpdatePost() {
+            this.$router.push({ name: "EditPost"})
+        }
+    },
+  mounted() {
+      this.getPost(this.$route.params.id);
+  }
 }
 </script>
 <style lang="scss">

@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Home</router-link> | 
-        <router-link :to="'/posts/' + userId" class="nav-item">Voir mes messages postés</router-link> |
+        <router-link :to="'/posts/myposts/' + userId" class="nav-item">Voir mes messages postés</router-link> |
         <router-link to="/posts/add" class="nav-item">Poster un message</router-link> 
       </div>
       <div>
@@ -11,15 +11,21 @@
       </div>
     </nav>
     <router-view/>
+    
   </div>
 </template>
 <script>
+
   export default {
     name: "App",
+    
     data() {
       return {
-        userId: Math.floor(Math.random() * Math.floor(9999))
+        userId: 4
       }
+    },
+    methods: {
+      
     }
   }
 </script>
