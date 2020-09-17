@@ -51,7 +51,7 @@ export default {
         </div>
         <div class="form-group">
             <label for="post-content">Contenu du message</label>
-            <editor
+            <editor id="post-content" v-model="post.content"
             api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
             :init="{
                 height: 500,

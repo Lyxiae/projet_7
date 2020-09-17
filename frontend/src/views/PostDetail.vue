@@ -6,7 +6,7 @@
             class="menu-item__image"
             :src="post.image"
         />
-        <p>{{ post.content }}</p>
+        <div v-html="post.content">{{ post.content }}</div>
         <div class="post-actions">
             <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
             <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
