@@ -5,7 +5,7 @@
 
         <h2>Posts récents</h2>
         <div class="post-item card" v-for="post in posts"
-        :key="post.postTitle">
+        :key="post.id">
           <div class="card-img">
             <img class="card-img-top" v-if="post.image" alt="Image du post" :src="post.image"/>
           </div>
