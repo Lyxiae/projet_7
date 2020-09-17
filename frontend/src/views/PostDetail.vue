@@ -13,7 +13,7 @@
         </div>
         <div class="post-comments">
             <div class="post-comments-item" v-for='comment in comments' :key="comment.id">
-                <p>{{ comment.date_posted }}</p>
+                <p>#{{ comment.id }} - Posté le : {{ comment.date_posted }} par {{ comment.firstname + ' ' + comment.surname }}</p>
                 <p>{{ comment.content }}</p>
             </div>
         </div>
@@ -64,11 +64,8 @@ export default {
             this.$router.push({ name: "EditPost"})
         },
         getComments(id){
-            console.log('1');
             postsQueries.getComments(id)
             .then(response => {
-                console.log('2');
-                console.log(response.data);
                 response.data.forEach((comment) => {
                     comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
                     this.comments.push(comment)

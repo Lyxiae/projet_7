@@ -43,7 +43,7 @@ export default new Router({
       component: UserPosts
     },
     {
-      path:'/posts/add',
+      path:'/addpost',
       name:'AddPost',
       component: AddPost
     },

@@ -4,7 +4,7 @@
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
         <router-link :to="'/posts/user/' + userId" class="nav-item">Voir mes messages postés</router-link> |
-        <router-link to="/posts/add" class="nav-item">Poster un message</router-link> 
+        <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
       </div>
       <div>
         <router-link to="/edituser" class="nav-item">Éditer mon profil</router-link>

@@ -41,12 +41,11 @@ export default {
             postsQueries.getAll()
             .then(response => {
               console.log(this.posts);
-                this.posts = response.data;
-                //Mise en forme des dates avec Moment
-                for (let post of this.posts) {
-                  post.date_posted = moment(post.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-                }
-                console.log(response.data);
+              response.data.forEach((post) => {
+                    post.date_posted = moment(post.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
+                    this.posts.push(post)
+                })
+                
             })
             .catch(e => {
                 console.log(e)

@@ -3,7 +3,7 @@
     <section class="postlist">
       <h2>Mes messages postés</h2>
       <div class="post-item" v-for="post in posts"
-        :key="post.postTitle">
+        :key="post.id">
         <h2>
           <h3><router-link :to="'/posts/' + post.id">{{ post.postTitle }}</router-link></h3>
         </h2>
