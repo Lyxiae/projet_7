@@ -3,11 +3,12 @@
     <section class="postlist">
       <h2>Mes messages postés</h2>
       <div class="post-item" v-for="post in posts"
-      :key="post.id">
+        :key="post.postTitle">
         <h2>
           <h3><router-link :to="'/posts/' + post.id">{{ post.postTitle }}</router-link></h3>
         </h2>
         <img :src="post.image"/>
+        <p>{{ post.content }}</p>
       </div>
     </section>
     
@@ -21,7 +22,6 @@ export default {
   name: 'UserPosts',
   data() {
     return {
-      userId:3,
       posts: [],
       
     }
@@ -30,8 +30,9 @@ export default {
         getUserPosts(userId) {
             postsQueries.findByAuthor(userId)
             .then(response => {
-                this.posts = response.data;
+                this.posts = (response.data);
                 console.log(response.data)
+                console.log(this.posts);
             })
             .catch(e => {
                 console.log(e)
@@ -39,7 +40,7 @@ export default {
         }
     },
   mounted() {
-      this.getUserPosts(this.userId)
+      this.getUserPosts(this.$route.params.userId)
   }
 }
 </script>

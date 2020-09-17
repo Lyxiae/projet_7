@@ -11,6 +11,12 @@
             <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
             <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
         </div>
+        <div class="post-comments">
+            <div class="post-comments-item" v-for='comment in comments' :key="comment.id">
+                <p>{{ comment.date_posted }}</p>
+                <p>{{ comment.content }}</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -27,6 +33,7 @@ export default {
   data() {
     return {
       post: [],
+      comments: []
     }
   },
   methods: {
@@ -56,12 +63,23 @@ export default {
         gotoUpdatePost() {
             this.$router.push({ name: "EditPost"})
         },
-        correctDate() {
-            
+        getComments(id){
+            postsQueries.getComments(id)
+            .then(response => {
+                this.comments.push(response.data);
+                //Mise en forme des dates avec Moment
+                for (let comment of this.comments) {
+                  comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
+                }
+            })
+            .catch(e => {
+                console.log(e)
+            });
         }
     },
   mounted() {
       this.getPost(this.$route.params.id);
+      this.getComments(this.$route.params.id);
   }
 }
 </script>

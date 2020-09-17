@@ -40,6 +40,7 @@ export default {
         getPosts() {
             postsQueries.getAll()
             .then(response => {
+              console.log(this.posts);
                 this.posts = response.data;
                 //Mise en forme des dates avec Moment
                 for (let post of this.posts) {

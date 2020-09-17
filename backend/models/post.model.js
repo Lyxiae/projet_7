@@ -39,7 +39,6 @@ Post.getAll = result => {
 
 //Récupération d'un post d'après l'userId pour l'affichage des posts de l'utilisateur actif - NON FONCTIONNEL
 Post.getFromUser = (userId, result) => {
-
     sql.query(`SELECT * FROM Posts WHERE userId = ${userId}`, (err, res) => {
         if (err) {
             console.log('error: ', err);
@@ -59,6 +58,26 @@ Post.getOne = (postId, result) => {
             console.log("error: ", err);
             result(err, null);
             return;
+        }
+
+        if (res.length) {
+            console.log('Post trouvé:', res[0]);
+            result(null, res[0]);
+            return;
+        }
+
+        //pas trouvé avec l'id
+        result({ kind: 'not_found' }, null);
+    })
+}
+
+//Récupération d'un post d'après son identifiant
+Post.getComments = (postId, result) => {
+    sql.query(`SELECT * FROM Comments WHERE postId = ${postId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            ;
         }
 
         if (res.length) {

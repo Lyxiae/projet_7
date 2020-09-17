@@ -25,4 +25,7 @@ router.get('/user/:userId', postsCtrl.getUserPosts);
 //Route GET pour afficher un post et ses commentaires
 router.get('/:id', postsCtrl.getOnePost);
 
+//Route GET pour afficher les commentaires d'un post
+router.get('/:id/comments', postsCtrl.getComments);
+
 module.exports = router;
