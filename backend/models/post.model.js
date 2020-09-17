@@ -80,14 +80,8 @@ Post.getComments = (postId, result) => {
             ;
         }
 
-        if (res.length) {
-            console.log('Post trouvé:', res[0]);
-            result(null, res[0]);
-            return;
-        }
-
-        //pas trouvé avec l'id
-        result({ kind: 'not_found' }, null);
+        console.log("Commentaires: ", res);
+        result(null, res);
     })
 }
 

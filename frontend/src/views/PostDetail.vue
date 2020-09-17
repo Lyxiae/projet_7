@@ -64,13 +64,15 @@ export default {
             this.$router.push({ name: "EditPost"})
         },
         getComments(id){
+            console.log('1');
             postsQueries.getComments(id)
             .then(response => {
-                this.comments.push(response.data);
-                //Mise en forme des dates avec Moment
-                for (let comment of this.comments) {
-                  comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-                }
+                console.log('2');
+                console.log(response.data);
+                response.data.forEach((comment) => {
+                    comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
+                    this.comments.push(comment)
+                })
             })
             .catch(e => {
                 console.log(e)
