@@ -24,4 +24,30 @@ Comment.create = (comment, result) => {
     })
 };
 
+Comment.getLikes = (postId, result) => {
+
+    sql.query(`SELECT * FROM Reactions WHERE reaction = 1 and postId= ${postId}`, (err, res) => {
+        if (err) {
+            console.log('error: ', err);
+            result(err, null);
+            return;
+        }
+
+        result(null, res);
+    })
+};
+
+Comment.getDislikes = (postId, result) => {
+
+    sql.query(`SELECT * FROM Reactions WHERE reaction = 2 and postId= ${postId}`, (err, res) => {
+        if (err) {
+            console.log('error: ', err);
+            result(err, null);
+            return;
+        }
+
+        result(null, res);
+    })
+};
+
 module.exports = Comment;

@@ -7,8 +7,8 @@
             :src="post.image"
         />
         <div v-html="post.content">{{ post.content }}</div>
-        <button class="btn btn-light" @click="likePost"><i class="far fa-thumbs-up"></i></button>
-        <button class="btn btn-light" @click="dislikePost"><i class="far fa-thumbs-down"></i></button>
+        <span>{{ this.reactions.likes.length }}</span> <button class="btn btn-light" id="btn-like" @click="likePost" :change="getReactions"><i class="far fa-thumbs-up"></i></button>
+        <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button> <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
         <div class="post-actions">
             <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
             <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
@@ -57,12 +57,16 @@ export default {
     },
   data() {
     return {
-      userId: 3,
+      userId: 7,
       post: [],
       comments: [],
       newComment: {
-          userId: 3,
+          userId: 7,
           content:"",
+      },
+      reactions: {
+          likes: [],
+          dislikes: [],
       },
     }
   },
@@ -130,6 +134,9 @@ export default {
             postsQueries.createReaction(data.postId, data)
                 .then(response => {
                     console.log(response.data);
+                    this.getReactions(this.$route.params.id);
+                    document.getElementById('btn-like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
+                    document.getElementById('btn-dislike').classList.add("disabled");
                 })
                 .catch(e => {
                     console.log(e);
@@ -144,16 +151,31 @@ export default {
             postsQueries.createReaction(data.postId, data)
                 .then(response => {
                     console.log(response.data);
+                    this.getReactions(this.$route.params.id);
+                    document.getElementById('btn-dislike').innerHTML = '<i class="fas fa-thumbs-down"></i>';
+                    document.getElementById('btn-like').classList.add("disabled");
+                    
                 })
                 .catch(e => {
                     console.log(e);
                 });
+        },
+        getReactions(id) {
+            postsQueries.getReactions(id)
+            .then(response => {
+                this.reactions.likes = response.data.likes;
+                this.reactions.dislikes = response.data.dislikes;
+            })
+            .catch(e => {
+                console.log(e)
+            });
         },
     },
 
   mounted() {
       this.getPost(this.$route.params.id);
       this.getComments(this.$route.params.id);
+      this.getReactions(this.$route.params.id);
   }
 }
 </script>
@@ -164,5 +186,13 @@ export default {
 
     .btn {
         margin:5px;
+    }
+
+    #btn-like {
+        color:green;
+    }
+
+    #btn-dislike {
+        color:red;
     }
 </style>

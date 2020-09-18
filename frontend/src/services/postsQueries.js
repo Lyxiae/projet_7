@@ -13,6 +13,9 @@ class postsQueries {
     getComments(id) {
         return http.get(`/posts/${id}/comments`);
     }
+    getReactions(id) {
+        return http.get(`/posts/${id}/like`);
+    }
     create(data) {
         return http.post("posts", data);
     }

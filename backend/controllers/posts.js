@@ -100,6 +100,45 @@ exports.getComments = (req, res, next) => {
         })
     };
 
+        //Logique métier pour getAllPosts
+exports.getReactions = (req, res, next) => {
+        let likes = [];
+        let dislikes = [];
+        let reactions = {};
+    Comment.getLikes(req.params.id, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || 'Erreur lors de la réception des likes'
+            });
+        }
+        
+        if (data.length > 0) {
+            likes.push(data);
+        console.log("data likes ajoutée");
+        console.log(likes);
+        return likes
+        } 
+
+    })
+
+    Comment.getDislikes(req.params.id, (err, data) => {
+        if (err)
+        res.status(500).send({
+            message: err.message || 'Erreur lors de la réception des dislikes'
+        });
+        if (data.length > 0) {
+            dislikes.push(data);
+            console.log("data dislikes ajoutée");
+            console.log(dislikes);
+            reactions.likes = likes.flat(1);
+            reactions.dislikes = dislikes.flat(1);
+
+            console.log(reactions);
+            res.send(reactions);
+        } 
+    })
+    };
+
 //Logique métier pour getUserPosts
 exports.getUserPosts = (req, res, next) => {
     Post.getFromUser(req.params.userId, (err, data) => {
