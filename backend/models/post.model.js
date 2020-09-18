@@ -23,6 +23,8 @@ Post.create = (newPost, result) => {
     })
 };
 
+
+
 //Récupération de tous les posts
 Post.getAll = result => {
     sql.query("SELECT * FROM Posts", (err, res) => {
@@ -80,7 +82,7 @@ Post.getComments = (postId, result) => {
             ;
         }
 
-        console.log("Commentaires: ", res);
+        // console.log("Commentaires: ", res);
         result(null, res);
     })
 }

@@ -16,6 +16,12 @@ class postsQueries {
     create(data) {
         return http.post("posts", data);
     }
+    createComment(id, data) {
+        return http.post(`/posts/${id}`, data);
+    }
+    createReaction(id, data) {
+        return http.post(`/posts/${id}/like`, data);
+    }
     update(id, data) {
         return http.put(`/posts/${id}`, data);
     }

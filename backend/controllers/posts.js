@@ -1,5 +1,6 @@
 const Post = require('../models/post.model');
 const Reaction = require('../models/reactions.model');
+const Comment = require('../models/comment.model');
 
 //Importation du système de gestion de fichiers file system de Node
 const fs = require('fs');
@@ -26,6 +27,33 @@ exports.createPost = (req, res, next) => {
         if (err) {
             res.status(500).send({
                 message: err.message || 'Une erreur est apparue lors de la création du post'
+            });
+            return;
+        }
+        res.send(data);
+    });
+};
+
+//Logique métier pour createPost
+exports.createComment = (req, res, next) => {
+    //Vérification de la requête
+    if (!req.body) {
+        res.status(400).send({
+            message: 'Le contenu de la requête ne doit pas être vide !'
+        });
+    }
+    //Création du post
+    const comment = new Comment({
+        postId:req.body.postId,
+        userId:req.body.userId,
+        content:req.body.content,
+    });
+
+    //Sauvegarde dans la base de données
+    Comment.create(comment, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || 'Une erreur est apparue lors de la création du commentaire'
             });
             return;
         }

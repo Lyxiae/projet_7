@@ -10,6 +10,9 @@ router.post('/', postsCtrl.createPost);
 // Route POST pour les likes/dislikes
 router.post('/:id/like', postsCtrl.likeSystem);
 
+// Route POST pour poster un commentaire
+router.post('/:id', postsCtrl.createComment);
+
 // Route PUT pour modifier un post créé
 router.put('/:id', postsCtrl.modifyPost);
 
