@@ -27,7 +27,7 @@ Post.create = (newPost, result) => {
 
 //Récupération de tous les posts
 Post.getAll = result => {
-    sql.query("SELECT * FROM Posts", (err, res) => {
+    sql.query("SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId", (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(null, err);
@@ -41,7 +41,7 @@ Post.getAll = result => {
 
 //Récupération d'un post d'après l'userId pour l'affichage des posts de l'utilisateur actif - NON FONCTIONNEL
 Post.getFromUser = (userId, result) => {
-    sql.query(`SELECT * FROM Posts WHERE userId = ${userId}`, (err, res) => {
+    sql.query(`SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId WHERE userId = ${userId}`, (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(null, err);
@@ -55,7 +55,7 @@ Post.getFromUser = (userId, result) => {
 
 //Récupération d'un post d'après son identifiant
 Post.getOne = (postId, result) => {
-    sql.query(`SELECT * FROM Posts WHERE id = ${postId}`, (err, res) => {
+    sql.query(`SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId WHERE Posts.id = ${postId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

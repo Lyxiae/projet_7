@@ -112,7 +112,7 @@ exports.getReactions = (req, res, next) => {
             });
         }
         
-        if (data.length > 0) {
+        else {
             likes.push(data);
         console.log("data likes ajoutée");
         console.log(likes);
@@ -126,13 +126,12 @@ exports.getReactions = (req, res, next) => {
         res.status(500).send({
             message: err.message || 'Erreur lors de la réception des dislikes'
         });
-        if (data.length > 0) {
+        else {
             dislikes.push(data);
             console.log("data dislikes ajoutée");
             console.log(dislikes);
             reactions.likes = likes.flat(1);
             reactions.dislikes = dislikes.flat(1);
-
             console.log(reactions);
             res.send(reactions);
         } 

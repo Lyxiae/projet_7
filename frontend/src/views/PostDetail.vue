@@ -1,7 +1,7 @@
 <template>
     <div class="post-details">
         <h2>{{ post.postTitle }}</h2>
-        <p>Posté le : {{ post.date_posted }}</p>
+        <p>Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</p>
         <img
             class="menu-item__image"
             :src="post.image"
@@ -77,7 +77,9 @@ export default {
                 this.post = response.data;
                 //Mise en forme de la date avec Moment
                 this.post.date_posted = moment(this.post.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-
+                this.getReactions(this.$route.params.id);
+                console.log(this.reactions);
+                
             })
             .catch(e => {
                 console.log(e)
@@ -126,7 +128,29 @@ export default {
                 });
         },
         likePost() {
-            let data = {
+            if (this.checkDislikes()) {
+                alert('Vous ne pouvez pas liker, car vous avez déjà disliké ce post');
+                return;
+            }
+            if (this.checkLikes()) {
+                let data = {
+                userId: this.userId,
+                postId: this.post.id,
+                reaction: 3
+                };
+                postsQueries.createReaction(data.postId, data)
+                    .then(response => {
+                        console.log(response.data);
+                        this.getReactions(this.$route.params.id);
+                        document.getElementById('btn-like').innerHTML = '<i class="far fa-thumbs-up"></i>';
+                        document.getElementById('btn-dislike').classList.remove("disabled");
+                        
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            } else {
+                let data = {
                 userId: this.userId,
                 postId: this.post.id,
                 reaction: 1
@@ -135,20 +159,50 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.getReactions(this.$route.params.id);
-                    document.getElementById('btn-like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
-                    document.getElementById('btn-dislike').classList.add("disabled");
+                    if (this.checkLikes()) {
+                        document.getElementById('btn-like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
+                        document.getElementById('btn-dislike').classList.add("disabled");
+                    }
+                    
                 })
                 .catch(e => {
                     console.log(e);
                 });
+            }
+            
         },
         dislikePost() {
-            let data = {
+            if (this.checkLikes()) {
+                alert('Vous ne pouvez pas disliker, car vous avez déjà liké ce post');
+                return;
+            }
+            if (this.checkDislikes()) {
+                let data = {
+                userId: this.userId,
+                postId: this.post.id,
+                reaction: 3
+            };
+                postsQueries.createReaction(data.postId, data)
+                .then(response => {
+                    console.log(response.data);
+                    this.getReactions(this.$route.params.id);
+                    if (this.checkDislikes()) {
+                        document.getElementById('btn-dislike').innerHTML = '<i class="far fa-thumbs-down"></i>';
+                        document.getElementById('btn-like').classList.remove("disabled");
+                    }
+                    
+                    
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            } else {
+                let data = {
                 userId: this.userId,
                 postId: this.post.id,
                 reaction: 2
-            };
-            postsQueries.createReaction(data.postId, data)
+                };
+                postsQueries.createReaction(data.postId, data)
                 .then(response => {
                     console.log(response.data);
                     this.getReactions(this.$route.params.id);
@@ -159,23 +213,55 @@ export default {
                 .catch(e => {
                     console.log(e);
                 });
+            }
+            
         },
         getReactions(id) {
             postsQueries.getReactions(id)
             .then(response => {
                 this.reactions.likes = response.data.likes;
                 this.reactions.dislikes = response.data.dislikes;
+                console.log(this.reactions);
+                this.checkReactions();
             })
             .catch(e => {
                 console.log(e)
             });
+        },
+        checkReactions() {
+            console.log(this.reactions.dislikes);
+            if (this.checkLikes()) {
+                console.log('userliked');
+                document.getElementById('btn-like').innerHTML = '<i class="fas fa-thumbs-up"></i>';
+                document.getElementById('btn-dislike').classList.add("disabled");
+            }
+            if (this.checkDislikes()) {
+                console.log('userDisliked');
+                document.getElementById('btn-dislike').innerHTML = '<i class="fas fa-thumbs-down"></i>';
+                document.getElementById('btn-like').classList.add("disabled");
+            }
+        },
+        checkLikes() {
+            if (this.reactions.likes.some(el => el.postId == this.post.id && el.userId == this.userId && el.reaction == 1)) {
+                return true
+            } else {
+                return false
+            }
+        },
+
+        checkDislikes() {
+            if (this.reactions.dislikes.some(el => el.postId == this.post.id && el.userId == this.userId && el.reaction == 2)) {
+                return true
+            } else {
+                return false
+            }
         },
     },
 
   mounted() {
       this.getPost(this.$route.params.id);
       this.getComments(this.$route.params.id);
-      this.getReactions(this.$route.params.id);
+      
   }
 }
 </script>

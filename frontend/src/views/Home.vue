@@ -14,7 +14,7 @@
           </h2>
             
           <div class="card-footer">
-            <small class="text-muted">Posté le : {{ post.date_posted }}</small>
+            <small class="text-muted">Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</small>
           </div>
         </div>
 
