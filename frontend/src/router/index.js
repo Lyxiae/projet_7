@@ -7,6 +7,7 @@ import AddPost from '../views/AddPost.vue'
 import UserPosts from '../views/UserPosts.vue'
 import EditPost from '../views/EditPost.vue'
 import CreateUser from '../views/CreateUser.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(Router) 
 
@@ -21,6 +22,11 @@ export default new Router({
       path:'/signup',
       name:'CreateUser',
       component: CreateUser
+    },
+    {
+      path:'/login',
+      name:'Login',
+      component: Login
     },
     {
       path: '/EditUser',

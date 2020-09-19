@@ -34,14 +34,7 @@ User.getOne = (email, result) => {
             return;
         }
 
-        if (res.length) {
-            console.log('Utilisateur trouvé:', res[0]);
-            
-            return res[0];
-        }
-
-        //pas trouvé avec l'id
-        result({ kind: 'not_found' }, null);
+        result(null, res[0]);
     })
 }
 

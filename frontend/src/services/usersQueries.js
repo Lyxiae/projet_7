@@ -1,8 +1,8 @@
 import http from "../http-common";
 
 class usersQueries {
-    login() {
-        return http.get('/auth/login');
+    login(data) {
+        return http.post('/auth/login', data);
     }
     create(data) {
         return http.post("/auth/signup", data);

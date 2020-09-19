@@ -77,9 +77,8 @@ export default {
                 this.post = response.data;
                 //Mise en forme de la date avec Moment
                 this.post.date_posted = moment(this.post.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-                this.getReactions(this.$route.params.id);
-                console.log(this.reactions);
-                
+                //Récupération des réactions (likes-dislikes)
+                this.getReactions(this.$route.params.id);                
             })
             .catch(e => {
                 console.log(e)
@@ -221,7 +220,7 @@ export default {
             .then(response => {
                 this.reactions.likes = response.data.likes;
                 this.reactions.dislikes = response.data.dislikes;
-                console.log(this.reactions);
+                // Vérification du statut des réactions pour l'utilisateur
                 this.checkReactions();
             })
             .catch(e => {
@@ -248,7 +247,6 @@ export default {
                 return false
             }
         },
-
         checkDislikes() {
             if (this.reactions.dislikes.some(el => el.postId == this.post.id && el.userId == this.userId && el.reaction == 2)) {
                 return true

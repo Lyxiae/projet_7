@@ -35,26 +35,27 @@ exports.signup = (req, res, next) => {
 
 //Connexion
 exports.login = (req, res, next) => {
-    User.getOne(req.body.email, (err, data) => {
-        if (!data) {
+    User.getOne(req.body.email, (err, result) => {
+        if (!result) {
             res.status(404).send({
                 message: err.message || "Utilisateur non trouvé"
             });
             return;
         } else {
-            bcrypt.compare(req.body.password, user.password)
+            bcrypt.compare(req.body.password, result.password)
         .then(valid => {
             if(!valid) {
                 return res.status(401).json({ error: 'Mot de passe incorrect !'});
             }
             res.status(200).json({
-                userId: user.userId,
+                userId: result.userId,
                 token: jwt.sign(
-                    { userId: user.userId },
+                    { userId: result.userId },
                     `${process.env.JWT_KEY}`,
                     { expiresIn: '24h' }
                 )
             });
+            
         })
         .catch(error => res.status(500).json({ error }));
         }
