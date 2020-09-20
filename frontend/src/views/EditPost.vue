@@ -5,7 +5,7 @@ export default {
     data() {
         return {
             post: {
-                userId:3,
+                userId:this.$store.state.userId,
                 postTitle:"",
                 content:"",
                 image:"",

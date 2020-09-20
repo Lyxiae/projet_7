@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             post: {
-                userId:3,
+                userId:this.$store.state.userId,
                 postTitle:"",
                 content:"",
                 image:"",
@@ -29,6 +29,7 @@ export default {
         .then(response => {
             this.post.id = response.data.id;
             console.log(response.data);
+            this.$router.push(`/posts/${this.post.id}`);
         })
         .catch(e => {
             console.log(e);

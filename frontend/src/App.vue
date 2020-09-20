@@ -21,7 +21,7 @@
     
     data() {
       return {
-        userId: 3
+        userId: this.$store.state.userId
       }
     },
     methods: {

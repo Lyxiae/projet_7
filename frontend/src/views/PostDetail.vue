@@ -57,11 +57,11 @@ export default {
     },
   data() {
     return {
-      userId: 7,
+      userId: this.$store.state.userId,
       post: [],
       comments: [],
       newComment: {
-          userId: 7,
+          userId: this.$store.state.userId,
           content:"",
       },
       reactions: {
@@ -84,11 +84,11 @@ export default {
                 console.log(e)
             });
         },
-        deletePost(id) {
-            postsQueries.delete(id)
+        deletePost() {
+            postsQueries.delete(this.post.id)
             .then(response => {
                 console.log(response.data);
-                this.$router.push({ name: "Home" });
+                this.$router.push('/');
             })
             .catch(e => {
                 console.log(e)
