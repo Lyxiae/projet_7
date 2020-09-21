@@ -19,12 +19,14 @@ export default {
     },
     methods: {
         savePost() {
+            console.log(this.post.image);
             let data = {
                 userId: this.post.userId,
                 postTitle: this.post.postTitle,
                 content: this.post.content,
                 image: this.post.image
             };
+            console.log(data);
         postsQueries.create(data)
         .then(response => {
             this.post.id = response.data.id;
@@ -35,6 +37,10 @@ export default {
             console.log(e);
         });
 
+        },
+        imageUpload() {
+            this.post.image = this.$refs.file.files[0];
+            console.log(this.post.image);
         }
     }
 }
@@ -47,8 +53,8 @@ export default {
             <input type="text" class="form-control" v-model="post.postTitle" id ="post-title" placeholder="Titre du post">
         </div>
         <div class="form-group">
-            <label for="post-image">Ajouter une image</label>
-            <input type="file" class="form-control-file" id="post-image">
+            <label for="file">Ajouter une image</label>
+            <input type="file" class="form-control-file" id="file" ref="file" @change="imageUpload">
         </div>
         <div class="form-group">
             <label for="post-content">Contenu du message</label>

@@ -1,21 +1,26 @@
 <template>
-    <div class="post-details">
-        <h2>{{ post.postTitle }}</h2>
-        <p>Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</p>
-        <img
-            class="menu-item__image"
-            :src="post.image"
-        />
-        <div v-html="post.content">{{ post.content }}</div>
-        <span>{{ this.reactions.likes.length }}</span> <button class="btn btn-light" id="btn-like" @click="likePost" :change="getReactions"><i class="far fa-thumbs-up"></i></button>
-        <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button> <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
-        <div class="post-actions">
-            <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
-            <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
+    <div class="post-details container">
+        <div class="post-content rounded">
+            <h2>{{ post.postTitle }}</h2>
+            <div class="post-infos">Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</div>
+            <img
+                class="menu-item__image"
+                :src="post.image"
+            />
+            <div v-html="post.content" class="post-text">{{ post.content }}</div>
+            <div class="post-reactions">
+                <span>{{ this.reactions.likes.length }}</span> <button class="btn btn-light" id="btn-like" @click="likePost" :change="getReactions"><i class="far fa-thumbs-up"></i></button>
+                <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button> <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
+            </div>
+            <div class="post-actions">
+                <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
+                <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
+            </div>
         </div>
         <div class="post-comments">
-            <div class="post-comments-item" v-for='comment in comments' :key="comment.id">
-                <p>#{{ comment.id }} - Posté le : {{ comment.date_posted }} par {{ comment.firstname + ' ' + comment.surname }}</p>
+            <h3>Commentaires</h3>
+            <div class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
+                <div class="post-comments-header">#{{ comment.id }} - Posté le : {{ comment.date_posted }} par {{ comment.firstname + ' ' + comment.surname }}</div>
                 <p v-html="comment.content">{{ comment.content }}</p>
             </div>
         </div>
@@ -38,7 +43,7 @@
                 bullist numlist outdent indent | removeformat | help'
             }"
             />
-            <button class="btn btn-success" @click="saveComment">Poster votre commentaire</button>
+            <button class="btn btn-success" @click="saveComment" :change="getComments">Poster votre commentaire</button>
             </div>
         </div>
     </div>
@@ -101,9 +106,10 @@ export default {
             postsQueries.getComments(id)
             .then(response => {
                 response.data.forEach((comment) => {
-                    comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-                    this.comments.push(comment)
-                });
+                        comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
+                        this.comments.push(comment)
+                    
+                })
             })
             .catch(e => {
                 console.log(e)
@@ -121,6 +127,8 @@ export default {
                 .then(response => {
                     this.newComment.id = response.data.id;
                     console.log(response.data);
+                    this.comments = [];
+                    this.getComments(this.$route.params.id);
                 })
                 .catch(e => {
                     console.log(e);
@@ -278,5 +286,89 @@ export default {
 
     #btn-dislike {
         color:red;
+    }
+    h2 {
+        font-family:'Raleway', sans-serif;
+        color:#D1515A;
+        font-size:2.6rem;
+        font-weight:700;
+        margin:1rem 0 0 0;
+        background:#eee;
+        padding:1rem 0;
+        border-radius:3px;
+    }
+    .post-content {
+        background:#f8f8f8;
+        .post-infos {
+            background:#f3f3f3;
+            margin:0 0 2rem 0;
+            height:40px;
+            font: normal normal 500 0.8rem/40px 'Arial', sans-serif;
+            text-align:left;
+            padding: 0 1rem;
+            border-top:1px solid #e6e6e6;
+        }
+        .post-text {
+            background-color:white;
+            margin: 2rem;
+            padding:2rem;
+            text-align:left;
+        }
+        .post-reactions {
+            display:flex;
+            justify-content:flex-end;
+            align-content:center;
+            align-items:center;
+            padding:0 1rem;
+            button {
+                margin:0.5rem;
+                background:white;
+                border:1px solid #eee;
+                &:hover {
+                    border-color:#b3cfff
+                }
+            }
+            span {
+                margin: 0.5rem;
+                font-weight:700;
+                color:#375281;
+            }
+        }
+        .post-actions {
+            background:#eee;
+            border-top:1px solid #e6e6e6;
+            padding:1rem;
+            border-radius:0 0 3px 3px;
+        }
+    }
+    .post-comments {
+        h3 {
+            font-family:'Raleway', sans-serif;
+            color:#1a2e50;
+            font-size:2rem;
+            font-weight:700;
+            margin:1rem 0;
+            background:#eee;
+            padding:1rem 0;
+            border-radius:3px; 
+        }
+    }
+    .post-comments-item {
+        background:#f8f8f8;
+        padding-bottom:1rem;
+        .post-comments-header {
+             background:#f3f3f3;
+            margin:0 0 1rem 0;
+            height:40px;
+            font: normal normal 500 0.8rem/40px 'Arial', sans-serif;
+            text-align:left;
+            padding: 0 1rem;
+            border-bottom:1px solid #e6e6e6;
+        }
+        p {
+            margin:0 1rem;
+            padding:0.8rem;
+            text-align:left;
+        }
     }
 </style>

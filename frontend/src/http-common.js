@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { config } from "../../backend/models/db";
 
-// axios.interceptors.response.use(response => {
+// .interceptors.response.use(response => {
 //   return response
 // }, (error) => {
 //   if (error.response.status === 401) {
@@ -15,6 +15,7 @@ const http = axios.create({
     "Content-type": "application/json"
   }
 });
+
 
 // export default axios.create({
 //   baseURL: "http://localhost:3000/api",

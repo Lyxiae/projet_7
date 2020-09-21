@@ -1,5 +1,6 @@
 import http from "../http-common";
 
+
 class postsQueries {
     getAll() {
         return http.get('/posts');
@@ -17,7 +18,7 @@ class postsQueries {
         return http.get(`/posts/${id}/like`);
     }
     create(data) {
-        return http.post("posts", data);
+        return http.post("/posts", data);
     }
     createComment(id, data) {
         return http.post(`/posts/${id}`, data);
@@ -26,7 +27,11 @@ class postsQueries {
         return http.post(`/posts/${id}/like`, data);
     }
     update(id, data) {
-        return http.put(`/posts/${id}`, data);
+        return http.put(`/posts/${id}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          });
     }
     delete(id) {
         return http.delete(`/posts/${id}`);

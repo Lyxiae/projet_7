@@ -41,17 +41,27 @@ export default {
 </script>
 
 <template>
-    <div class="post-form">
-        <div class="form-group">
-            <label for="user-email">Email</label>
-            <input type="text" class="form-control" v-model="email" id ="user-email" placeholder="Email">
+    <section>
+        <div class="post-form mt-5">
+            <div class="form-group row">
+                <label for="user-email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="email" id ="user-email" placeholder="Email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="user-password" class="col-sm-2 col-form-label">Mot de passe</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" v-model="password" id ="user-password" placeholder="Mot de passe">
+                </div>
+            </div>
+            <button class="btn btn-success" @click="loginUser">Se connecter</button>
         </div>
-        <div class="form-group">
-            <label for="user-password">Mot de passe</label>
-            <input type="password" class="form-control" v-model="password" id ="user-password" placeholder="Mot de passe">
+        <div class="container">
+            <p>Vous n'avez pas de compte ? <router-link to="/signup">Inscrivez-vous</router-link></p>
         </div>
-        <button class="btn btn-success" @click="loginUser">Poster</button>
-    </div>
+    </section>
+    
     
 </template>
 

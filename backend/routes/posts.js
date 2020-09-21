@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-//IMportation des controllers
+//Importation des controllers
 const postsCtrl = require('../controllers/posts');
 
+//Importation du middleware de configuration de multer
+const multer = require('../middleware/multer-config');
+
 // Route POST, pour poster un message
-router.post('/', postsCtrl.createPost);
+router.post('/', multer, postsCtrl.createPost);
 
 // Route POST pour les likes/dislikes
 router.post('/:id/like', postsCtrl.likeSystem);
@@ -17,7 +20,7 @@ router.get('/:id/like', postsCtrl.getReactions);
 router.post('/:id', postsCtrl.createComment);
 
 // Route PUT pour modifier un post créé
-router.put('/:id', postsCtrl.modifyPost);
+router.put('/:id', multer, postsCtrl.modifyPost);
 
 //Route DELETE pour supprimer un post créé (et ses commentaires)
 router.delete('/:id', postsCtrl.deletePost);
