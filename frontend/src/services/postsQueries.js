@@ -18,7 +18,11 @@ class postsQueries {
         return http.get(`/posts/${id}/like`);
     }
     create(data) {
-        return http.post("/posts", data);
+        return http.post("/posts", data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          });
     }
     createComment(id, data) {
         return http.post(`/posts/${id}`, data);

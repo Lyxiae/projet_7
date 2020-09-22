@@ -123,6 +123,7 @@ export default {
             };
             console.log(this.newComment);
             console.log(data);
+            // this.comments.push(data)
             postsQueries.createComment(data.postId, data)
                 .then(response => {
                     this.newComment.id = response.data.id;

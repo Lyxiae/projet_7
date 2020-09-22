@@ -13,13 +13,13 @@ exports.createPost = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
-
+    console.log(req.file);
     //Création du post
     const post = new Post({
         userId:req.body.userId,
         postTitle:req.body.postTitle,
         content:req.body.content,
-        image:req.body.image
+        image:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     console.log(post);
     //Sauvegarde dans la base de données
@@ -63,19 +63,25 @@ exports.createComment = (req, res, next) => {
 
 //Logique métier pour deletePost
 exports.deletePost = (req, res, next) => {
-    Post.delete(req.params.id, (err, data) => {
-        if (err) {
-            if (err,kind === "not_found") {
-                res.status(404).send({
-                    message: `Le post n'existe pas ou plus.`
-                });
-            } else {
-                res.status(500).send({
-                    message: 'Suppression impossible'
-                });
-            }
-        } else res.send({ message: `Le post a été supprimé !`});
-    });
+    Post.getOne(req.params.id, (err, data) => {
+        const filename = data.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+    
+            Post.delete(req.params.id, (err, data) => {
+                if (err) {
+                    if (err,kind === "not_found") {
+                        res.status(404).send({
+                            message: `Le post n'existe pas ou plus.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: 'Suppression impossible'
+                        });
+                    }
+                } else res.send({ message: `Le post a été supprimé !`});
+            });
+        })
+    })
 };
 
 //Logique métier pour getAllPosts
@@ -184,7 +190,9 @@ exports.modifyPost = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
-    
+    if (req.file) {
+        req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    }
 
     Post.update(req.params.id, new Post(req.body), (err, data) => {
         if (err) {

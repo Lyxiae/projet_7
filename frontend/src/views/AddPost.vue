@@ -18,47 +18,53 @@ export default {
         }
     },
     methods: {
+        getUserId() {
+            this.post.userId = this.$store.state.userId;
+            console.log(this.post.userId);
+        },
         savePost() {
-            console.log(this.post.image);
-            let data = {
-                userId: this.post.userId,
-                postTitle: this.post.postTitle,
-                content: this.post.content,
-                image: this.post.image
-            };
-            console.log(data);
+            let data = new FormData(document.getElementById('post-form'));
+            let imagefile = document.querySelector('#file');
+            data.append("image", imagefile.files[0]);
+            data.append("userId", this.$store.state.userId);
+            console.log(data.values);
         postsQueries.create(data)
         .then(response => {
             this.post.id = response.data.id;
-            console.log(response.data);
-            this.$router.push(`/posts/${this.post.id}`);
+            // this.$router.push(`/`);
         })
         .catch(e => {
             console.log(e);
         });
 
         },
-        imageUpload() {
-            this.post.image = this.$refs.file.files[0];
-            console.log(this.post.image);
-        }
+        // imageUpload() {
+        //     this.post.image = this.$refs.file.files[0];
+        //     console.log(this.post.image);
+        // }
+        
+    },
+    mounted() {
+       this.getUserId();     
     }
 }
 </script>
 
 <template>
-    <div id="post-form">
-        <div class="form-group">
-            <label for="post-title">Titre du post</label>
-            <input type="text" class="form-control" v-model="post.postTitle" id ="post-title" placeholder="Titre du post">
-        </div>
-        <div class="form-group">
+<section class="container">
+    <div class="form-group">
             <label for="file">Ajouter une image</label>
-            <input type="file" class="form-control-file" id="file" ref="file" @change="imageUpload">
-        </div>
+            <input type="file" class="form-control-file" id="file" ref="file">
+    </div>
+    <form id="post-form" name="post-form">
         <div class="form-group">
-            <label for="post-content">Contenu du message</label>
-            <editor id="post-content" v-model="post.content"
+            <label for="postTitle">Titre du post</label>
+            <input type="text" class="form-control" v-model="post.postTitle" id="postTitle" name="postTitle" placeholder="Titre du post">
+        </div>
+        
+        <div class="form-group">
+            <label for="content">Contenu du message</label>
+            <editor id="content" name="content" v-model="post.content"
             api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
             :init="{
                 height: 500,
@@ -75,8 +81,10 @@ export default {
             }"
             />
         </div>
-        <button class="btn btn-success" @click="savePost">Poster</button>
-    </div>
+        
+        <input type="submit" class="btn btn-success" @click="savePost" value="Poster"/>
+    </form>
+</section>
     
 </template>
 
@@ -85,10 +93,6 @@ export default {
         text-decoration:none;
     }
 
-    #post-form {
-        width:80%;
-        margin:0 auto;
-    }
     .form-group {
         label {
             font: normal normal 600 1.2rem/130% 'Raleway', sans-serif;
