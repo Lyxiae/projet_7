@@ -5,6 +5,9 @@ const bouncer = require('express-bouncer')(500, 900000);
 //Importation des logiques métier pour les routes
 const userCtrl = require('../controllers/user');
 
+//Importation du middleware de configuration de multer
+const multer = require('../middleware/multer-config');
+
 //Importation du middleware verifyPassword pour la vérification de la complexité du mot de passe
 const verifyPassword = require('../middleware/verifyPassword');
 
@@ -15,9 +18,9 @@ router.post('/signup', verifyPassword, userCtrl.signup);
 router.post('/login', bouncer.block, userCtrl.login);
 
 //Route GET pour la recherche d'un utilisateur (affichage du profil)
-router.get('/:id', userCtrl.getOneUser);
+router.get('/profile/:id', userCtrl.getOneUser);
 
 //Route PUT pour la modification d'un utilisateur (affichage du profil)
-router.put('/:id', userCtrl.update);
+router.put('/:id', multer, userCtrl.update);
 
 module.exports = router;

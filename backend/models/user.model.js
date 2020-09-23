@@ -5,7 +5,7 @@ const { post } = require('../routes/user');
 const User = function(user) {
     this.surname = user.surname,
     this.firstname = user.firstname,
-    this.avatarUrl = user.avatarUrl,
+    this.image = user.image,
     this.email = user.email,
     this.password = user.password,
     this.birthday = user.birthday
@@ -48,7 +48,7 @@ User.getOneId = (id, result) => {
         }
 
         if (res.length) {
-            console.log('Post trouvé:', res[0]);
+            console.log('Utilisateur trouvé:', res[0]);
             result(null, res[0]);
             return;
         }
@@ -61,8 +61,8 @@ User.getOneId = (id, result) => {
 //Mise à jour d'un utilisateur après requête.
 User.update = (id, user, result) => {
     sql.query (
-        "UPDATE Users SET surname = ?, firstname = ?, avatarUrl = ?, email = ? WHERE id = ?",
-        [user.surname, user.firstname, user.avatarUrl, user.email, id],
+        "UPDATE Users SET surname = ?, firstname = ?, image = ?, email = ?, birthday = ? WHERE id = ?",
+        [user.surname, user.firstname, user.image, user.email, user.birthday, id],
         (err, res) => {
             if (err) {
                 console.log('error: ', err);

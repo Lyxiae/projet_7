@@ -8,7 +8,7 @@ export default {
             user: {
                 surname:"",
                 firstname:"",
-                avatarUrl:"",
+                image:"",
                 email:"",
                 password:"",
                 birthday:""
@@ -20,7 +20,7 @@ export default {
             let data = {
                 surname: this.user.surname,
                 firstname: this.user.firstname,
-                avatarUrl: this.user.avatarUrl,
+                image: this.user.image,
                 email: this.user.email,
                 password: this.user.password,
                 birthday: this.user.birthday

@@ -21,7 +21,9 @@ export default {
         updatePost() {
             let data = new FormData(document.getElementById('post-form'));
             let imagefile = document.querySelector('#file');
-            data.append("image", imagefile.files[0]);
+            if (document.getElementById('file').value) {
+                data.append("image", imagefile.files[0]);
+            }
             data.append("userId", this.$store.state.userId);
             postsQueries.update(this.post.id, data)
             .then(response => {

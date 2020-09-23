@@ -14,7 +14,7 @@
             </h3>
               
             <div class="card-footer">
-              <small class="text-muted">Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</small>
+              <small class="text-muted">Posté le : {{ post.date_posted }} par <router-link :to="'/profile/' + post.userId">{{ `${post.firstname} ${post.surname}`}}</router-link></small>
             </div>
         </div>
 

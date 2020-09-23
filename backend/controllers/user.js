@@ -16,7 +16,7 @@ exports.signup = (req, res, next) => {
             email: req.body.email,
             birthday: req.body.birthday,
             password: hash,
-            avatarUrl: req.body.avatarUrl,
+            image: req.body.image,
         });
         //Enregistre l'objet user avec renvoi d'erreur si ça ne fonctionne pas, et statut 201 de création si ça fonctionne
         User.create(user, (err, data) => {
@@ -66,7 +66,8 @@ exports.login = (req, res, next) => {
 
 //Logique métier pour getOne
 exports.getOneUser = (req, res, next) => {
-    User.getOneId(req.body.id, (err, data) => {
+    console.log(req.params);
+    User.getOneId(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === 'not_found') {
                 res.status(404).send({
@@ -91,7 +92,10 @@ exports.update = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
-    
+    if (req.file) {
+        req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    }
+    console.log(req.body);
 
     User.update(req.params.id, new User(req.body), (err, data) => {
         if (err) {

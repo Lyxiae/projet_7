@@ -1,59 +1,95 @@
 <script>
+import usersQueries from "../services/usersQueries"
+import moment from 'moment';
+
 export default {
     name: 'EditUser',
-    props: ['title', 'content', 'image']
+    data() {
+        return {
+            user: {
+                surname: '',
+                firstname: '',
+                email: '',
+                birthday: ''
+            }
+        }
+    },
+    methods: {
+        updateUser() {
+            let data = new FormData(document.getElementById('edit-profile'));
+            let imagefile = document.querySelector('#file');
+            if (document.getElementById('file').value) {
+                data.append("image", imagefile.files[0]);
+            }
+            usersQueries.update(this.$store.state.userId, data)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        },
+        getUserData(id) {
+            usersQueries.getOneUser(id)
+            .then(response => {
+                this.user = response.data;
+                this.user.birthday = moment(this.user.birthday).utc().format("YYYY-MM-DD");   
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+    },
+    mounted() {
+        this.getUserData(this.$store.state.userId);
+    }
 }
 </script>
 
 <template>
-    <div class="EditUser">
-        <form id="edit-profile">
+    <div class="EditUser container">
+        <div class="form-group row">
+            <label for="file" class="col-sm-2 col-form-label">Avatar</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control-file" id="file" ref="file">
+            </div>
+        </div>
+        <form id="edit-profile" name="edit-profile">
             <div class="form-group row">
                 <label for="surname" class="col-sm-2 col-form-label">Nom</label>
                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="surname" name="surname">
+                    <input type="text" class="form-control" v-model="user.surname" id="surname" name="surname">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="firstname" name="firstname">
+                    <input type="text" class="form-control" v-model="user.firstname" id="firstname" name="firstname">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="email" name="email">
+                    <input type="text" class="form-control" v-model="user.email" id="email" name="email">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="birthday" class="col-sm-2 col-form-label">Date de naissance</label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control" id="birthday" name="birthday">
+                    <input type="date" :value="user.birthday" class="form-control" id="birthday" name="birthday">
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="avatar" class="col-sm-2 col-form-label">Avatar</label>
-                <div class="col-sm-10">
-                    <input type="file" class="form-control-file" id="avatar" name="avatar">
-                </div>
-            </div>
-            <button class="btn btn-success" @click="updateProfile">Valider le profil</button>
-            
-            
+
+            <input type="submit" class="btn btn-success" @click="updateUser" value="Mettre à jour"/>
         </form>
+        
     </div>
 </template>
 
 <style lang="scss">
     a {
         text-decoration:none;
-    }
-
-    #edit-profile {
-        width:80%;
-        margin:0 auto;
-        padding: 20px 0;
     }
 
     .form-group {

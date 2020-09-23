@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import EditUser from '../views/EditUser.vue'
+import UserDetail from '../views/UserDetail.vue'
 import PostDetail from '../views/PostDetail.vue'
 import AddPost from '../views/AddPost.vue'
 import UserPosts from '../views/UserPosts.vue'
@@ -32,6 +33,11 @@ export default new Router({
       path: '/EditUser',
       name: 'EditUser',
       component: EditUser
+    },
+    {
+      path:'/profile/:id',
+      name:'UserDetail',
+      component: UserDetail
     },
     {
       path:'/posts/:id',

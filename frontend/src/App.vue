@@ -42,7 +42,7 @@
       }
     },
     beforeMount(){
-      // this.loginPush();
+      this.loginPush();
     },
     mounted() {
       this.updateId();

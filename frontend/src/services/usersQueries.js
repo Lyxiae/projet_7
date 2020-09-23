@@ -8,7 +8,14 @@ class usersQueries {
         return http.post("/auth/signup", data);
     }
     update(id, data) {
-        return http.put(`/auth/${id}`, data);
+        return http.put(`/auth/${id}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          });
+    }
+    getOneUser(id) {
+        return http.get(`/auth/profile/${id}`);
     }
 }
 
