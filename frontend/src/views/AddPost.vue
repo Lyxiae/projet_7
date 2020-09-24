@@ -2,10 +2,12 @@
 import postsQueries from "../services/postsQueries"
 import Editor from '@tinymce/tinymce-vue'
 
+
 export default {
     name: 'AddPost',
     components: {
-     'editor': Editor
+     'editor': Editor,
+     
     },  
     data() {
         return {

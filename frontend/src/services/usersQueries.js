@@ -17,6 +17,9 @@ class usersQueries {
     getOneUser(id) {
         return http.get(`/auth/profile/${id}`);
     }
+    delete(id) {
+        return http.delete(`/auth/${id}`);
+    }
 }
 
 export default new usersQueries();

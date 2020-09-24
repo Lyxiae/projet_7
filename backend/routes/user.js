@@ -20,7 +20,10 @@ router.post('/login', bouncer.block, userCtrl.login);
 //Route GET pour la recherche d'un utilisateur (affichage du profil)
 router.get('/profile/:id', userCtrl.getOneUser);
 
-//Route PUT pour la modification d'un utilisateur (affichage du profil)
+//Route PUT pour la modification d'un utilisateur 
 router.put('/:id', multer, userCtrl.update);
+
+//Route DELETE pour la suppression d'un utilisateur
+router.delete('/:id', userCtrl.deleteUser);
 
 module.exports = router;

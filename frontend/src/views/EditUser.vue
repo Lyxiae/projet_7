@@ -39,6 +39,16 @@ export default {
             .catch(e => {
                 console.log(e);
             });
+        },
+        deleteUser() {
+            usersQueries.delete(this.$store.state.userId)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push('/');
+            })
+            .catch(e => {
+                console.log(e)
+            });
         }
     },
     mounted() {
@@ -82,7 +92,9 @@ export default {
             </div>
 
             <input type="submit" class="btn btn-success" @click="updateUser" value="Mettre à jour"/>
+            <button class="btn btn-danger" @click="deleteUser">Supprimer mon compte</button>
         </form>
+        
         
     </div>
 </template>
@@ -91,7 +103,9 @@ export default {
     a {
         text-decoration:none;
     }
-
+    .EditUser {
+        padding-top:20px;
+    }
     .form-group {
         label {
             font: normal normal 600 1.2rem/130% 'Raleway', sans-serif;

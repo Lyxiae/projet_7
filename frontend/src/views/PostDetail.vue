@@ -2,9 +2,9 @@
     <div class="post-details container">
         <div class="post-content rounded">
             <h2>{{ post.postTitle }}</h2>
-            <div class="post-infos">Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</div>
+            <div class="post-infos">Posté le : {{ post.date_posted }} par <router-link :to="'/profile/' + post.userId">{{ `${post.firstname} ${post.surname}`}}</router-link></div>
             <img
-                class="menu-item__image"
+                class="post-image"
                 :src="post.image"
             />
             <div v-html="post.content" class="post-text">{{ post.content }}</div>
@@ -20,7 +20,7 @@
         <div class="post-comments">
             <h3>Commentaires</h3>
             <div class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
-                <div class="post-comments-header">#{{ comment.id }} - Posté le : {{ comment.date_posted }} par {{ comment.firstname + ' ' + comment.surname }}</div>
+                <div class="post-comments-header">#{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link></div>
                 <p v-html="comment.content">{{ comment.content }}</p>
             </div>
         </div>
@@ -294,7 +294,7 @@ export default {
         font-size:2.6rem;
         font-weight:700;
         margin:1rem 0 0 0;
-        background:#eee;
+        background:#fff;
         padding:1rem 0;
         border-radius:3px;
     }
@@ -308,6 +308,10 @@ export default {
             text-align:left;
             padding: 0 1rem;
             border-top:1px solid #e6e6e6;
+        }
+        .post-image {
+            max-width:100%;
+            margin:0 auto;
         }
         .post-text {
             background-color:white;
@@ -349,7 +353,7 @@ export default {
             font-size:2rem;
             font-weight:700;
             margin:1rem 0;
-            background:#eee;
+            background:#fff;
             padding:1rem 0;
             border-radius:3px; 
         }

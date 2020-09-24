@@ -75,7 +75,7 @@ Post.getOne = (postId, result) => {
 
 //Récupération d'un post d'après son identifiant
 Post.getComments = (postId, result) => {
-    sql.query(`SELECT Comments.content, Comments.date_posted, Comments.id, Users.surname, Users.firstname FROM Comments JOIN Users ON Users.id = Comments.userId WHERE Comments.postId = ${postId}`, (err, res) => {
+    sql.query(`SELECT Comments.content, Comments.date_posted, Comments.id, Comments.userId, Users.surname, Users.firstname FROM Comments JOIN Users ON Users.id = Comments.userId WHERE Comments.postId = ${postId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

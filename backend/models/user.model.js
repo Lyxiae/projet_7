@@ -78,4 +78,24 @@ User.update = (id, user, result) => {
         }
     );
 };
+
+//Suppression d'un post
+User.delete = (id, result) => {
+    sql.query("DELETE FROM Users WHERE id = ?", id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        if (res.affectedRows == 0){
+            //Post non trouvé avec l'id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+
+        console.log('Utilisateur supprimé');
+        result(null, res);
+    });
+};
 module.exports = User;

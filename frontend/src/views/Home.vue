@@ -73,7 +73,7 @@ h2 {
   font-size:4rem;
   font-weight:700;
   margin:1rem 0;
-  background:#eee;
+  background:#fff;
   padding:1rem 0;
   border-radius:3px;
 }

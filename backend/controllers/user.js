@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 //Importation du schéma/modèle User
 const User = require('../models/user.model.js');
 
+//Importation du système de gestion de fichiers file system de Node
+const fs = require('fs');
+
 //Inscription
 exports.signup = (req, res, next) => {
     //Hash le mot de passe à partir du password donné dans la requête, effectue l'opération 10 fois
@@ -37,8 +40,9 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
     User.getOne(req.body.email, (err, result) => {
         if (!result) {
+            console.log("Utilisateur non trouvé");
             res.status(404).send({
-                message: err.message || "Utilisateur non trouvé"
+                message: "Utilisateur non trouvé"
             });
             return;
         } else {
@@ -75,7 +79,7 @@ exports.getOneUser = (req, res, next) => {
                 });
             } else {
                 res.status(500).send({
-                    message: err.message || 'Erreur lors de la réception du post'
+                    message: err.message || 'Erreur lors de la réception du user'
                 });
             }
         } else {
@@ -84,7 +88,7 @@ exports.getOneUser = (req, res, next) => {
     })
 };
 
-//Logique métier pour modifyPost
+//Logique métier pour updateUser
 exports.update = (req, res, next) => {
     // Validation de la requête
     if (!req.body) {
@@ -112,4 +116,27 @@ exports.update = (req, res, next) => {
             res.send(data);
         }
     });
+};
+
+//Logique métier pour deletePost
+exports.deleteUser = (req, res, next) => {
+    User.getOneId(req.params.id, (err, data) => {
+        const filename = data.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+    
+            User.delete(req.params.id, (err, data) => {
+                if (err) {
+                    if (err,kind === "not_found") {
+                        res.status(404).send({
+                            message: `L'utilisateur n'existe pas ou plus.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: 'Suppression impossible'
+                        });
+                    }
+                } else res.send({ message: `L'utilisateur a été supprimé !`});
+            });
+        })
+    })
 };
