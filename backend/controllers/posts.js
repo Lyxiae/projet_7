@@ -13,12 +13,14 @@ exports.createPost = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
+    console.log(req);
+    console.log(req.body);
     console.log(req.file);
     //Création du post
     const post = new Post({
         userId:req.body.userId,
         postTitle:req.body.postTitle,
-        content:req.body.content,
+        content:req.body.postContent,
         image:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     console.log(post);
@@ -97,7 +99,7 @@ exports.getAllPosts = (req, res, next) => {
 
     //Logique métier pour getAllPosts
 exports.getComments = (req, res, next) => {
-    Post.getComments(req.params.id, (err, data) => {
+    Comment.getComments(req.params.id, (err, data) => {
         if (err)
         res.status(500).send({
             message: err.message || 'Erreur lors de la réception des commentaires'
@@ -111,7 +113,7 @@ exports.getReactions = (req, res, next) => {
         let likes = [];
         let dislikes = [];
         let reactions = {};
-    Comment.getLikes(req.params.id, (err, data) => {
+    Reaction.getLikes(req.params.id, (err, data) => {
         if (err) {
             res.status(500).send({
                 message: err.message || 'Erreur lors de la réception des likes'
@@ -127,7 +129,7 @@ exports.getReactions = (req, res, next) => {
 
     })
 
-    Comment.getDislikes(req.params.id, (err, data) => {
+    Reaction.getDislikes(req.params.id, (err, data) => {
         if (err)
         res.status(500).send({
             message: err.message || 'Erreur lors de la réception des dislikes'
@@ -190,11 +192,29 @@ exports.modifyPost = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
+    const post = new Post({
+        userId:req.body.userId,
+        postTitle:req.body.postTitle,
+        content:req.body.postContent,
+        
+    });
+    console.log(req);
     if (req.file) {
-        req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        Post.getOne(req.params.id, (err, data) => {
+            console.log(data);
+            if (data.image) {
+                const filename = data.image.split('/images/')[1];
+                fs.unlink(`images/${filename}`, (err) => {
+                if (err) throw err;
+            });
+            }
+        });
+        console.log()
+        post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
-
-    Post.update(req.params.id, new Post(req.body), (err, data) => {
+    
+    Post.update(req.params.id, post, (err, data) => {
+        console.log(post);
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

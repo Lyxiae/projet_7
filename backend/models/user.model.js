@@ -13,7 +13,7 @@ const User = function(user) {
 
 //Création d'un utilisateur
 User.create = (newUser, result) => {
-    sql.query("INSERT INTO Users SET ?", newUser, (err, res) => {
+    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(err, null);
@@ -27,7 +27,7 @@ User.create = (newUser, result) => {
 
 //Récupération d'un utilisateur d'après son adresse email pour le login
 User.getOne = (email, result) => {
-    sql.query(`SELECT * FROM Users WHERE email = '${email}'`, (err, res) => {
+    sql.query(`SELECT * FROM users WHERE email = '${email}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -40,7 +40,7 @@ User.getOne = (email, result) => {
 
 //Récupération d'un utilisateur d'après son id pour l'affichage du profil
 User.getOneId = (id, result) => {
-    sql.query(`SELECT * FROM Users WHERE id = ${id}`, (err, res) => {
+    sql.query(`SELECT * FROM users WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -61,7 +61,7 @@ User.getOneId = (id, result) => {
 //Mise à jour d'un utilisateur après requête.
 User.update = (id, user, result) => {
     sql.query (
-        "UPDATE Users SET surname = ?, firstname = ?, image = ?, email = ?, birthday = ? WHERE id = ?",
+        "UPDATE users SET surname = ?, firstname = ?, image = ?, email = ?, birthday = ? WHERE id = ?",
         [user.surname, user.firstname, user.image, user.email, user.birthday, id],
         (err, res) => {
             if (err) {
@@ -81,7 +81,7 @@ User.update = (id, user, result) => {
 
 //Suppression d'un post
 User.delete = (id, result) => {
-    sql.query("DELETE FROM Users WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM users WHERE id = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

@@ -1,55 +1,3 @@
-<script>
-import postsQueries from "../services/postsQueries"
-import Editor from '@tinymce/tinymce-vue'
-
-export default {
-    name: 'EditPost',
-        components: {
-     'editor': Editor
-    },  
-    data() {
-        return {
-            post: {
-                userId:this.$store.state.userId,
-                postTitle:"",
-                content:"",
-                image:"",
-            }
-        }
-    },
-    methods: {
-        updatePost() {
-            let data = new FormData(document.getElementById('post-form'));
-            let imagefile = document.querySelector('#file');
-            if (document.getElementById('file').value) {
-                data.append("image", imagefile.files[0]);
-            }
-            data.append("userId", this.$store.state.userId);
-            postsQueries.update(this.post.id, data)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-        },
-        getPostData(id) {
-            postsQueries.getOne(id)
-            .then(response => {
-                this.post = response.data;
-                console.log(response.data);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-        }
-    },
-    mounted() {
-        this.getPostData(this.$route.params.id)
-    }
-}
-</script>
-
 <template>
 <section class="container">
     <div class="form-group">
@@ -59,12 +7,12 @@ export default {
     <form id="post-form" name="post-form">
         <div class="form-group">
             <label for="postTitle">Titre du post</label>
-            <input type="text" class="form-control" v-model="post.postTitle" id="postTitle" name="postTitle" placeholder="Titre du post">
+            <input type="text" class="form-control" v-model="title" id="postTitle" name="postTitle" placeholder="Titre du post">
         </div>
         
         <div class="form-group">
             <label for="content">Contenu du message</label>
-            <editor id="content" name="content" v-model="post.content"
+            <editor id="content" name="content" v-model="body"
             api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
             :init="{
                 height: 500,
@@ -82,11 +30,68 @@ export default {
             />
         </div>
         
-        <input type="submit" class="btn btn-success" @click="updatePost" value="Modifier"/>
+        <button class="btn btn-success" @click="updatePost">Modifier</button>
     </form>
 </section>
     
 </template>
+
+
+<script>
+import postsQueries from "../services/postsQueries"
+import Editor from '@tinymce/tinymce-vue'
+
+export default {
+    name: 'EditPost',
+        components: {
+     'editor': Editor
+    },  
+    data() {
+        return {
+            id:0,
+            userId:this.$store.state.userId,
+            title:"",
+            body:"",
+            image:"",
+        }
+    },
+    methods: {
+        updatePost() {
+            let payload = new FormData();
+            let imagefile = document.querySelector('#file');
+            if (document.getElementById('file').value) {
+                payload.append("image", imagefile.files[0]);
+            }
+            payload.append("userId", this.userId);
+            payload.append("postTitle", this.title);
+            payload.append("postContent", this.body);
+            postsQueries.update(this.id, payload)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push(`/`);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        },
+        getPostData(id) {
+            postsQueries.getOne(id)
+            .then(response => {
+                this.id = response.data.id;
+                this.title = response.data.postTitle;
+                this.body = response.data.content;
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        }
+    },
+    mounted() {
+        this.getPostData(this.$route.params.id)
+    }
+}
+</script>
 
 <style lang="scss">
     a {

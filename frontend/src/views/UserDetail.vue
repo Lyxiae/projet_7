@@ -1,11 +1,10 @@
 <template>
-<section class="container">
-    <div class="user-detail">
-        {{ user.surname + user.firstname }}
-        {{ user.birthday }}
-    </div>
-</section>
-    
+    <section class="container">
+        <div class="user-detail">
+            {{ user.surname + user.firstname }}
+            {{ user.birthday }}
+        </div>
+    </section>
 </template>
 
 <script>

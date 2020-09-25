@@ -2,15 +2,21 @@
     <div class="post-details container">
         <div class="post-content rounded">
             <h2>{{ post.postTitle }}</h2>
-            <div class="post-infos">Posté le : {{ post.date_posted }} par <router-link :to="'/profile/' + post.userId">{{ `${post.firstname} ${post.surname}`}}</router-link></div>
+            <div class="post-infos">
+                Posté le : {{ post.date_posted }} par <router-link :to="'/profile/' + post.userId">{{ `${post.firstname} ${post.surname}`}}</router-link>
+            </div>
             <img
                 class="post-image"
                 :src="post.image"
             />
-            <div v-html="post.content" class="post-text">{{ post.content }}</div>
+            <div v-html="post.content" class="post-text">
+                {{ post.content }}
+            </div>
             <div class="post-reactions">
-                <span>{{ this.reactions.likes.length }}</span> <button class="btn btn-light" id="btn-like" @click="likePost" :change="getReactions"><i class="far fa-thumbs-up"></i></button>
-                <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button> <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
+                <span>{{ this.reactions.likes.length }}</span>
+                <button class="btn btn-light" id="btn-like" @click="likePost" :change="getReactions"><i class="far fa-thumbs-up"></i></button>
+                <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button>
+                <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
             </div>
             <div class="post-actions">
                 <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
@@ -20,31 +26,33 @@
         <div class="post-comments">
             <h3>Commentaires</h3>
             <div class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
-                <div class="post-comments-header">#{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link></div>
+                <div class="post-comments-header">
+                    #{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link>
+                </div>
                 <p v-html="comment.content">{{ comment.content }}</p>
             </div>
         </div>
-            <div class="add-comment">
+        <div class="add-comment">
             <div class="form-group container">
                 <label for="comment-content">Ajouter un commentaire</label>
                 <editor id="comment-content" v-model="newComment.content"
-            api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
-            :init="{
-                height: 300,
-                menubar: false,
-                plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
-                ],
-                toolbar:
-                'undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help'
-            }"
-            />
-            <button class="btn btn-success" @click="saveComment" :change="getComments">Poster votre commentaire</button>
+                    api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
+                    :init="{
+                        height: 300,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"
+                />
             </div>
+            <button class="btn btn-success" @click.once.prevent="saveComment" :change="getComments">Poster votre commentaire</button>
         </div>
     </div>
 </template>

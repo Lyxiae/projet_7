@@ -11,7 +11,7 @@ const Post = function(post) {
 
 //Création d'un post
 Post.create = (newPost, result) => {
-    sql.query("INSERT INTO Posts SET ?", newPost, (err, res) => {
+    sql.query("INSERT INTO posts SET ?", newPost, (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(err, null);
@@ -27,35 +27,35 @@ Post.create = (newPost, result) => {
 
 //Récupération de tous les posts
 Post.getAll = result => {
-    sql.query("SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId", (err, res) => {
+    sql.query("SELECT posts.id, posts.postTitle, posts.userId, posts.content, posts.image, posts.date_posted, Users.surname, Users.firstname FROM posts JOIN Users ON Users.id = posts.userId", (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(null, err);
             return;
         }
       
-        console.log("Posts: ", res);
+        console.log("posts: ", res);
         result(null, res);
     });
 };
 
 //Récupération d'un post d'après l'userId pour l'affichage des posts de l'utilisateur actif - NON FONCTIONNEL
 Post.getFromUser = (userId, result) => {
-    sql.query(`SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId WHERE userId = ${userId}`, (err, res) => {
+    sql.query(`SELECT posts.id, posts.postTitle, posts.userId, posts.content, posts.image, posts.date_posted, Users.surname, Users.firstname FROM posts JOIN Users ON Users.id = posts.userId WHERE userId = ${userId}`, (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(null, err);
             return;
         }
       
-        console.log("Posts: ", res);
+        console.log("posts: ", res);
         result(null, res);
     });
 };
 
 //Récupération d'un post d'après son identifiant
 Post.getOne = (postId, result) => {
-    sql.query(`SELECT Posts.id, Posts.postTitle, Posts.userId, Posts.content, Posts.image, Posts.date_posted, Users.surname, Users.firstname FROM Posts JOIN Users ON Users.id = Posts.userId WHERE Posts.id = ${postId}`, (err, res) => {
+    sql.query(`SELECT posts.id, posts.postTitle, posts.userId, posts.content, posts.image, posts.date_posted, Users.surname, Users.firstname FROM posts JOIN Users ON Users.id = posts.userId WHERE posts.id = ${postId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -73,24 +73,12 @@ Post.getOne = (postId, result) => {
     })
 }
 
-//Récupération d'un post d'après son identifiant
-Post.getComments = (postId, result) => {
-    sql.query(`SELECT Comments.content, Comments.date_posted, Comments.id, Comments.userId, Users.surname, Users.firstname FROM Comments JOIN Users ON Users.id = Comments.userId WHERE Comments.postId = ${postId}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            ;
-        }
 
-        // console.log("Commentaires: ", res);
-        result(null, res);
-    })
-}
 
 //Mise à jour d'un post
 Post.update = (id, post, result) => {
     sql.query (
-        "UPDATE Posts SET postTitle = ?, content = ?, image = ? WHERE id = ?",
+        "UPDATE posts SET postTitle = ?, content = ?, image = IFNULL(?, image) WHERE id = ?",
         [post.postTitle, post.content, post.image, id],
         (err, res) => {
             if (err) {
@@ -110,7 +98,7 @@ Post.update = (id, post, result) => {
 
 //Suppression d'un post
 Post.delete = (id, result) => {
-    sql.query("DELETE FROM Posts WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM posts WHERE id = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

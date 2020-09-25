@@ -8,11 +8,23 @@ const Comment = function(comment) {
     this.content = comment.content
 };
 
+//Récupération d'un post d'après son identifiant
+Comment.getComments = (postId, result) => {
+    sql.query(`SELECT comments.content, comments.date_posted, comments.id, comments.userId, Users.surname, Users.firstname FROM comments JOIN Users ON Users.id = comments.userId WHERE comments.postId = ${postId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            ;
+        }
 
+        // console.log("Commentaires: ", res);
+        result(null, res);
+    })
+}
 
 Comment.create = (comment, result) => {
 
-    sql.query("INSERT INTO Comments SET ?", comment, (err, res) => {
+    sql.query("INSERT INTO comments SET ?", comment, (err, res) => {
         if (err) {
             console.log('error: ', err);
             result(err, null);
@@ -24,30 +36,6 @@ Comment.create = (comment, result) => {
     })
 };
 
-Comment.getLikes = (postId, result) => {
 
-    sql.query(`SELECT * FROM Reactions WHERE reaction = 1 and postId= ${postId}`, (err, res) => {
-        if (err) {
-            console.log('error: ', err);
-            result(err, null);
-            return;
-        }
-
-        result(null, res);
-    })
-};
-
-Comment.getDislikes = (postId, result) => {
-
-    sql.query(`SELECT * FROM Reactions WHERE reaction = 2 and postId= ${postId}`, (err, res) => {
-        if (err) {
-            console.log('error: ', err);
-            result(err, null);
-            return;
-        }
-
-        result(null, res);
-    })
-};
 
 module.exports = Comment;

@@ -1,3 +1,46 @@
+
+<template>
+    <div class="EditUser container">
+        <div class="form-group row">
+            <label for="file" class="col-sm-2 col-form-label">Avatar</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control-file" id="file" ref="file">
+            </div>
+        </div>
+        <form id="edit-profile" name="edit-profile">
+            <div class="form-group row">
+                <label for="surname" class="col-sm-2 col-form-label">Nom</label>
+                 <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="user.surname" id="surname" name="surname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="user.firstname" id="firstname" name="firstname">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="user.email" id="email" name="email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="birthday" class="col-sm-2 col-form-label">Date de naissance</label>
+                <div class="col-sm-10">
+                    <input type="date" :value="user.birthday" class="form-control" id="birthday" name="birthday">
+                </div>
+            </div>
+
+            <input type="submit" class="btn btn-success" @click="updateUser" value="Mettre à jour"/>
+            <button class="btn btn-danger" @click="deleteUser">Supprimer mon compte</button>
+        </form>
+        
+        
+    </div>
+</template>
+
 <script>
 import usersQueries from "../services/usersQueries"
 import moment from 'moment';
@@ -56,48 +99,6 @@ export default {
     }
 }
 </script>
-
-<template>
-    <div class="EditUser container">
-        <div class="form-group row">
-            <label for="file" class="col-sm-2 col-form-label">Avatar</label>
-            <div class="col-sm-10">
-                <input type="file" class="form-control-file" id="file" ref="file">
-            </div>
-        </div>
-        <form id="edit-profile" name="edit-profile">
-            <div class="form-group row">
-                <label for="surname" class="col-sm-2 col-form-label">Nom</label>
-                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="user.surname" id="surname" name="surname">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="firstname" class="col-sm-2 col-form-label">Prénom</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="user.firstname" id="firstname" name="firstname">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="user.email" id="email" name="email">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="birthday" class="col-sm-2 col-form-label">Date de naissance</label>
-                <div class="col-sm-10">
-                    <input type="date" :value="user.birthday" class="form-control" id="birthday" name="birthday">
-                </div>
-            </div>
-
-            <input type="submit" class="btn btn-success" @click="updateUser" value="Mettre à jour"/>
-            <button class="btn btn-danger" @click="deleteUser">Supprimer mon compte</button>
-        </form>
-        
-        
-    </div>
-</template>
 
 <style lang="scss">
     a {
