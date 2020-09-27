@@ -20,6 +20,12 @@ router.post('/login', bouncer.block, userCtrl.login);
 //Route GET pour la recherche d'un utilisateur (affichage du profil)
 router.get('/profile/:id', userCtrl.getOneUser);
 
+//Route GET pour la récupération des commentaires de l'utilisateur 
+router.get('/profile/comments/:id', userCtrl.getUserComments);
+
+//Route GET pour la récupération des réactions de l'utilisateur 
+router.get('/profile/reactions/:id', userCtrl.getUserReactions);
+
 //Route PUT pour la modification d'un utilisateur 
 router.put('/:id', multer, userCtrl.update);
 

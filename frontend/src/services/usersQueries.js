@@ -17,6 +17,12 @@ class usersQueries {
     getOneUser(id) {
         return http.get(`/auth/profile/${id}`);
     }
+    getUserComments(id) {
+        return http.get(`/auth/profile/comments/${id}`);
+    }
+    getUserReactions(id) {
+        return http.get(`/auth/profile/reactions/${id}`);
+    }
     delete(id) {
         return http.delete(`/auth/${id}`);
     }

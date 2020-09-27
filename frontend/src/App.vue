@@ -4,7 +4,7 @@
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
         <div v-if="this.$store.state.userId != 0">
-          <router-link :to="'/posts/user/' + userId" class="nav-item">Voir mes messages postés</router-link> |
+          <router-link :to="'/posts/user/' + this.$store.state.userId" class="nav-item">Voir mes messages postés</router-link> |
           <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
         </div>
       </div>
@@ -19,7 +19,7 @@
     <div class="container main-app">
       <div class="row">
         <SideBar v-if="this.$store.state.userId != 0"/>
-        <div class="col-md-10" v-bind:class="{ 'col-12': this.$store.state.userId == 0 }"><router-view/></div>
+        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.$store.state.userId == 0 }"><router-view/></div>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
         },
       loginPush(){
         if (this.$store.state.userId == 0) {
-          this.$router.push(`/login`);
+          this.$router.push(`/login`).catch(()=>{});
         }
       },
     },
@@ -58,20 +58,31 @@
   }
 </script>
 <style lang="scss">
+html, body {
+  height:100%
+}
+
+body {
+    background-image:url('../public/images/background.jpg');
+    background-attachment: fixed;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-image:url('../public/images/background.jpg');
+
   padding-bottom:20px;
-  display:flex;
-  flex-flow:row wrap;
+  height:100%;
+
+  
 }
 .container.main-app {
   width:100%;
   background:#f1f3f8;
+  height:auto;
+  
 }
 .bg-custom {
     background-color:  #1a2e50;
@@ -80,6 +91,7 @@ nav {
   padding: 30px;
   align-content:center;
   width:100%;
+  height:60px;
   .navbar-nav {
     align-content:center;
     align-items:center;

@@ -97,7 +97,7 @@ exports.getAllPosts = (req, res, next) => {
         })
     };
 
-    //Logique métier pour getAllPosts
+    //Logique métier pour getComments
 exports.getComments = (req, res, next) => {
     Comment.getComments(req.params.id, (err, data) => {
         if (err)
@@ -209,7 +209,6 @@ exports.modifyPost = (req, res, next) => {
             });
             }
         });
-        console.log()
         post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
     

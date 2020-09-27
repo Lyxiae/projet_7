@@ -58,11 +58,39 @@ User.getOneId = (id, result) => {
     })
 }
 
+//Récupération d'un utilisateur d'après son id pour l'affichage du profil
+User.getUserReactions = (id, result) => {
+    sql.query(`SELECT * FROM reactions WHERE userId = ${id}`, (err, res) => {
+        if (err) {
+            console.log('error: ', err);
+            result(null, err);
+            return;
+        }
+      
+        console.log("Reactions: ", res);
+        result(null, res);
+    })
+}
+
+//Récupération d'un utilisateur d'après son id pour l'affichage du profil
+User.getUserComments = (id, result) => {
+    sql.query(`SELECT * FROM comments WHERE userId = ${id}`, (err, res) => {
+        if (err) {
+            console.log('error: ', err);
+            result(null, err);
+            return;
+        }
+      
+        console.log("Commentaires: ", res);
+        result(null, res);
+    })
+}
+
 //Mise à jour d'un utilisateur après requête.
 User.update = (id, user, result) => {
     sql.query (
-        "UPDATE users SET surname = ?, firstname = ?, image = ?, email = ?, birthday = ? WHERE id = ?",
-        [user.surname, user.firstname, user.image, user.email, user.birthday, id],
+        "UPDATE users SET surname = ?, firstname = ?, email = ?, birthday = ?, image = IFNULL(?, image) WHERE id = ?",
+        [user.surname, user.firstname, user.email, user.birthday, user.image, id],
         (err, res) => {
             if (err) {
                 console.log('error: ', err);

@@ -2,19 +2,15 @@
   <div class="home">
     <section class="postlist">
       <h2>Mes messages postés</h2>
-      <div class="post-item card" v-for="post in posts"
+      <div class="postlist-item" v-for="post in posts"
         :key="post.id">
-          <div class="card-img">
-            <img class="card-img-top" v-if="post.image" alt="Image du post" :src="post.image"/>
-          </div>
-          <h2 class="card-title">
-            <router-link class="card-title-link" :to="'/posts/' + post.id">{{ post.postTitle }}</router-link>
-          </h2>
-            
-          <div class="card-footer">
-            <small class="text-muted">Posté le : {{ post.date_posted }} par {{ `${post.firstname} ${post.surname}`}}</small>
-          </div>
+        <div class="postlist-title">
+            <router-link class="postlist-title" :to="'/posts/' + post.id"># {{ post.id }} - {{ post.postTitle }}</router-link>
         </div>
+        <div class="postlist-date">
+          <small class="text-muted">Posté le : {{ post.date_posted }}</small>
+        </div>
+      </div>
     </section>
     
   </div>
@@ -52,3 +48,26 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.postlist-item {
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  background:white;
+  margin:10px auto;
+  border-bottom:1px solid #ddd;
+}
+.postlist-title {
+  a {
+      color:#D1515A;
+      text-decoration:none;
+      font-weight:600;
+      &:hover {
+        color:#fd505b;
+        text-decoration:none;
+      }
+    }
+}
+    
+</style>

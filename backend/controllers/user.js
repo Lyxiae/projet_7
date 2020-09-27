@@ -96,12 +96,28 @@ exports.update = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
+    const user = new User({
+        surname:req.body.surname,
+        firstname:req.body.firstname,
+        email:req.body.email,
+        birthday:req.body.birthday
+        
+    });
     if (req.file) {
-        req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        User.getOneId(req.params.id, (err, data) => {
+            console.log(data);
+            if (data.image) {
+                const filename = data.image.split('/images/')[1];
+                fs.unlink(`images/${filename}`, (err) => {
+                if (err) throw err;
+            });
+            }
+        });
+        user.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     }
     console.log(req.body);
 
-    User.update(req.params.id, new User(req.body), (err, data) => {
+    User.update(req.params.id, user, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -140,3 +156,28 @@ exports.deleteUser = (req, res, next) => {
         })
     })
 };
+
+exports.getUserComments = (req, res, next) => {
+    User.getUserComments(req.params.id, (err, data) => {
+        if (err) {
+            console.log('error: ', err);
+            result(null, err);
+            return;
+        }
+      
+        res.send(data);
+    });
+    
+}
+
+exports.getUserReactions = (req, res, next) => {
+    User.getUserReactions(req.params.id, (err, data) => {
+        if (err) {
+            console.log('error: ', err);
+            result(null, err);
+            return;
+        }
+      
+        res.send(data);
+    });
+}
