@@ -54,6 +54,7 @@ exports.login = (req, res, next) => {
             console.log(result);
             res.status(200).json({
                 userId: result.id,
+                roleId: result.roleId,
                 token: jwt.sign(
                     { userId: result.userId },
                     `${process.env.JWT_KEY}`,
@@ -164,7 +165,6 @@ exports.getUserComments = (req, res, next) => {
             result(null, err);
             return;
         }
-      
         res.send(data);
     });
     
@@ -177,7 +177,6 @@ exports.getUserReactions = (req, res, next) => {
             result(null, err);
             return;
         }
-      
         res.send(data);
     });
 }

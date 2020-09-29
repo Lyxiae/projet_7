@@ -55,7 +55,7 @@ export default {
         &-content {
             position:sticky;
             position: -webkit-sticky;
-            top:20px;
+            top:80px;
             height:300px;
             margin-top:20px;
             p {

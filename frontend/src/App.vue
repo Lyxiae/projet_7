@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-custom">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
         <div v-if="this.$store.state.userId != 0">
@@ -10,8 +10,9 @@
       </div>
       <div>
         <router-link v-if="this.$store.state.userId != 0" to="/edituser" class="nav-item">Éditer mon profil</router-link>
+        <span v-if="this.$store.state.userId != 0" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
         <div v-else>
-          <router-link v-if="this.$store.state.userId == 0" to="/login" class="nav-item">Connexion</router-link>  |
+          <router-link v-if="this.$store.state.userId == 0" to="/login" class="nav-item">Connexion</router-link> |
           <router-link v-if="this.$store.state.userId == 0" to="/signup" class="nav-item">Inscription</router-link>
         </div>
       </div>
@@ -47,6 +48,10 @@
           this.$router.push(`/login`).catch(()=>{});
         }
       },
+      logout() {
+        this.$store.dispatch('resetState');
+        this.loginPush();
+      }
     },
     beforeMount(){
       this.loginPush();
@@ -82,7 +87,7 @@ body {
   width:100%;
   background:#f1f3f8;
   height:auto;
-  
+  margin-top: 60px;
 }
 .bg-custom {
     background-color:  #1a2e50;
@@ -107,7 +112,7 @@ nav {
       padding:10px;
       }
     }
-  a {
+  a, .logout {
     font-weight: bold;
     color: #b7d1ff;
     font-family: "Raleway", sans-serif;
@@ -118,6 +123,9 @@ nav {
     &.router-link-exact-active {
       color: #e6efff;
     }
+  }
+  .logout {
+    cursor:pointer;
   }
 }
 </style>

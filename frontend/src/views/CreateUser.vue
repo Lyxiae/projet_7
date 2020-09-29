@@ -66,6 +66,7 @@ export default {
         .then(response => {
             this.user.id = response.data.id;
             console.log(response.data);
+            this.$router.push('/')
         })
         .catch(e => {
             console.log(e);

@@ -25,9 +25,8 @@ export default {
             console.log('userId updaté');
             console.log('userId du store' + this.$store.state.userId);
             this.userId = this.$store.state.userId;
-            
-            
-            
+            this.$store.dispatch('storeRoleId', response.data.roleId);
+            console.log('roleId du store' + this.$store.state.roleId);
             console.log(this.$store.state);
             this.$router.push('/')
         })

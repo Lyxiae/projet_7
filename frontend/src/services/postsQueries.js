@@ -27,6 +27,9 @@ class postsQueries {
     createComment(id, data) {
         return http.post(`/posts/${id}`, data);
     }
+    deleteComment(id) {
+        return http.delete(`/posts/${id}`);
+    }
     createReaction(id, data) {
         return http.post(`/posts/${id}/like`, data);
     }

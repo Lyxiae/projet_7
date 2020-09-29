@@ -198,14 +198,17 @@ exports.modifyPost = (req, res, next) => {
         content:req.body.postContent,
         
     });
-    console.log(req);
     if (req.file) {
         Post.getOne(req.params.id, (err, data) => {
             console.log(data);
             if (data.image) {
                 const filename = data.image.split('/images/')[1];
                 fs.unlink(`images/${filename}`, (err) => {
-                if (err) throw err;
+                if (err) {
+                    res.status(500).send({
+                        message: err
+                    })
+                    };
             });
             }
         });

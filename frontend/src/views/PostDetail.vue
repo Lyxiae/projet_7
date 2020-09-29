@@ -18,7 +18,7 @@
                 <button class="btn btn-light" id="btn-dislike" @click="dislikePost" :change="getReactions"><i class="far fa-thumbs-down"></i></button>
                 <span :key="this.reactions.dislikes.length">{{ this.reactions.dislikes.length }}</span>
             </div>
-            <div class="post-actions">
+            <div v-if="this.userId == this.post.userId || this.roleId == 1 || this.roleId == 3" class="post-actions">
                 <button class="btn btn-danger" @click="deletePost">Supprimer ce post</button>
                 <button class="btn btn-dark" @click="gotoUpdatePost">Editer ce post</button>
             </div>
@@ -27,9 +27,12 @@
             <h3>Commentaires</h3>
             <div class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
                 <div class="post-comments-header">
-                    #{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link>
+                     #{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link> 
                 </div>
                 <p v-html="comment.content">{{ comment.content }}</p>
+                <template v-if="userIsMod" class="comment-actions">
+                    <span @click="deleteComment" class="btn btn-danger">x</span>
+                </template>
             </div>
         </div>
         <div class="add-comment">
@@ -71,6 +74,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
+      roleId: this.$store.state.userId,
       post: [],
       comments: [],
       newComment: {
@@ -82,6 +86,19 @@ export default {
           dislikes: [],
       },
     }
+  },
+  computed: {
+      userIsMod: function() {
+            console.log(this.$store.state.roleId);
+            if(this.$store.state.roleId == 1 || this.$store.state.roleId == 3) {
+                console.log('true')
+                return true;
+            } else {
+                console.log('false');
+                return false;
+            }
+            
+        },
   },
   methods: {
         getPost(id) {
@@ -114,10 +131,11 @@ export default {
             postsQueries.getComments(id)
             .then(response => {
                 response.data.forEach((comment) => {
-                        comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
-                        this.comments.push(comment)
+                    comment.date_posted = moment(comment.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
+                    this.comments.push(comment)
                     
                 })
+                
             })
             .catch(e => {
                 console.log(e)
@@ -142,6 +160,17 @@ export default {
                 .catch(e => {
                     console.log(e);
                 });
+        },
+        
+        deleteComment() {
+            postsQueries.deleteComment(this.post.id)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push('/');
+            })
+            .catch(e => {
+                console.log(e)
+            });
         },
         likePost() {
             if (this.checkDislikes()) {
@@ -272,11 +301,9 @@ export default {
             }
         },
     },
-
   mounted() {
       this.getPost(this.$route.params.id);
       this.getComments(this.$route.params.id);
-      
   }
 }
 </script>
@@ -377,6 +404,8 @@ export default {
             text-align:left;
             padding: 0 1rem;
             border-bottom:1px solid #e6e6e6;
+            position:relative;
+
         }
         p {
             margin:0 1rem;

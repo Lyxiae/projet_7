@@ -11,7 +11,7 @@
                 <p class="col-6">Nombre de commentaires postés : <strong>{{ stats.comments }}</strong></p>
                 <p class="col-6">Nombre de réactions aux posts : <strong>{{ stats.reactions }}</strong></p>
             </div>
-
+            <button v-if="this.roleId == 1" class="btn btn-danger" @click="deleteUser">Supprimer l'utilisateur</button>
         </div>
     </section>
 </template>
@@ -24,6 +24,7 @@ export default {
     name:'UserDetail',
     data() {
         return {
+            roleId : this.$store.state.roleId,
             user: {
                 surname:'',
                 firstname:'',
@@ -67,6 +68,21 @@ export default {
             .catch(e => {
                 console.log(e)
             });
+        },
+        deleteUser() {
+            if (this.roleId == 1) {
+                usersQueries.delete(this.$route.params.id)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push('/');
+            })
+            .catch(e => {
+                console.log(e)
+            });
+            } else {
+                console.log("Vous n'avez pas les droits pour effectuer cette requête.");
+            }
+            
         }
     },
     created() {
