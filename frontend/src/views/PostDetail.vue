@@ -30,8 +30,10 @@
                      #{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link> 
                 </div>
                 <p v-html="comment.content">{{ comment.content }}</p>
-                <template v-if="userIsMod" class="comment-actions">
-                    <span @click="deleteComment" class="btn btn-danger">x</span>
+                <template v-if="userIsMod" >
+                    <div class="comment-actions">
+                        <span @click="deleteComment(post.id, comment.id)" class="btn btn-danger">x</span>
+                    </div>
                 </template>
             </div>
         </div>
@@ -162,11 +164,12 @@ export default {
                 });
         },
         
-        deleteComment() {
-            postsQueries.deleteComment(this.post.id)
+        deleteComment(postId, commentId) {
+            postsQueries.deleteComment(postId, commentId)
             .then(response => {
                 console.log(response.data);
-                this.$router.push('/');
+                this.comments = [];
+                this.getComments(this.$route.params.id);
             })
             .catch(e => {
                 console.log(e)
@@ -411,6 +414,16 @@ export default {
             margin:0 1rem;
             padding:0.8rem;
             text-align:left;
+        }
+    }
+
+    .comment-actions {
+        width:100%;
+        display:flex;
+        justify-content:flex-end;
+        padding:0 10px;
+        .btn {
+            padding:2px 10px;
         }
     }
 </style>

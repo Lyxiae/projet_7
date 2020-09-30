@@ -37,4 +37,7 @@ router.get('/:id', postsCtrl.getOnePost);
 //Route GET pour afficher les commentaires d'un post
 router.get('/:id/comments', postsCtrl.getComments);
 
+//Route DELETE pour supprimer un post créé (et ses commentaires)
+router.delete('/:postId/comments/:id', postsCtrl.deleteComment);
+
 module.exports = router;

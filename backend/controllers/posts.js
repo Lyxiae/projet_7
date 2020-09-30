@@ -146,6 +146,23 @@ exports.getReactions = (req, res, next) => {
     })
     };
 
+    //Logique métier pour deletePost
+exports.deleteComment = (req, res, next) => {
+    Comment.delete(req.params.id, (err, data) => {
+        if (err) {
+            if (err,kind === "not_found") {
+                res.status(404).send({
+                    message: `Le commentaire n'existe pas ou plus.`
+                });
+            } else {
+                res.status(500).send({
+                    message: 'Suppression impossible'
+                });
+            }
+        } else res.send({ message: `Le commentaire a été supprimé !`});
+    });
+};
+
 //Logique métier pour getUserPosts
 exports.getUserPosts = (req, res, next) => {
     Post.getFromUser(req.params.userId, (err, data) => {
