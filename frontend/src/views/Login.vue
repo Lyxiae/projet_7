@@ -1,5 +1,6 @@
 <script>
-import usersQueries from "../services/usersQueries"
+// import usersQueries from "../services/usersQueries"
+import axios from 'axios'
 
 export default {
     name: 'Login',
@@ -15,19 +16,11 @@ export default {
                 email: this.email,
                 password: this.password
             };
-        usersQueries.login(data)
+        this.$store.dispatch('login', data)
         .then(response => {
             console.log(response.data);
-            this.$store.dispatch('updateToken', response.data.token);
-            console.log('token updaté');
-            console.log('token du store' + this.$store.state.token);
-            this.$store.dispatch('storeUserId', response.data.userId);
-            console.log('userId updaté');
-            console.log('userId du store' + this.$store.state.userId);
-            this.userId = this.$store.state.userId;
-            this.$store.dispatch('storeRoleId', response.data.roleId);
-            console.log('roleId du store' + this.$store.state.roleId);
-            console.log(this.$store.state);
+            console.log(this.$store.state);  
+            axios.defaults.headers.common['Authorization'] = 'Bearer test';         
             this.$router.push('/')
         })
         .catch(e => {

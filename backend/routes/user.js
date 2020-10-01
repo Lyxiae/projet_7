@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bouncer = require('express-bouncer')(500, 900000);
+// const bouncer = require('express-bouncer')(500, 900000);
 
 //Importation des logiques métier pour les routes
 const userCtrl = require('../controllers/user');
@@ -15,7 +15,7 @@ const verifyPassword = require('../middleware/verifyPassword');
 router.post('/signup', verifyPassword, userCtrl.signup);
 
 //Route POST pour la connexion d'un utilisateur
-router.post('/login', bouncer.block, userCtrl.login);
+router.post('/login', userCtrl.login);
 
 //Route GET pour la recherche d'un utilisateur (affichage du profil)
 router.get('/profile/:id', userCtrl.getOneUser);

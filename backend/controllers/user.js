@@ -29,7 +29,7 @@ exports.signup = (req, res, next) => {
                 });
                 return;
             }
-            res.send(data);
+            res.send(data)
         });
     })
     //Renvoi d'erreur 500 si le hash ne fonctionne pas
@@ -52,11 +52,13 @@ exports.login = (req, res, next) => {
                 return res.status(401).json({ error: 'Mot de passe incorrect !'});
             }
             console.log(result);
+            console.log(result.id);
+            let userId = result.id
             res.status(200).json({
                 userId: result.id,
                 roleId: result.roleId,
                 token: jwt.sign(
-                    { userId: result.userId },
+                    { userId: userId },
                     `${process.env.JWT_KEY}`,
                     { expiresIn: '24h' }
                 )

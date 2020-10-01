@@ -62,11 +62,11 @@ export default {
                 password: this.user.password,
                 birthday: this.user.birthday
             };
-        usersQueries.create(data)
+         usersQueries.create(data)
         .then(response => {
-            this.user.id = response.data.id;
+            this.user.id = response.data.userId;
             console.log(response.data);
-            this.$router.push('/')
+            this.$router.push('/login')
         })
         .catch(e => {
             console.log(e);

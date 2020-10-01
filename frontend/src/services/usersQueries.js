@@ -10,7 +10,8 @@ class usersQueries {
     update(id, data) {
         return http.put(`/auth/${id}`, data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                
             }
           });
     }

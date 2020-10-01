@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import defaultState from './state'
+import usersQueries from "../services/usersQueries"
 
 Vue.use(Vuex)
 
@@ -20,7 +21,17 @@ export default new Vuex.Store({
     },
     RESET_STATE(state) {
       Object.assign(state, defaultState)
-    }
+    },
+    auth_request(state){
+      state.status = 'loading'
+    },
+    auth_success(state, token){
+      state.status = 'success',
+      state.token = token
+    },
+    auth_error(state){
+      state.status = 'error'
+    },
   },
   actions: {
     updateToken(context, token) {
@@ -34,7 +45,35 @@ export default new Vuex.Store({
     },
     resetState(context) {
       context.commit('RESET_STATE', defaultState)
-    }
+    },
+    login({commit}, data) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        usersQueries.login(data)
+        .then(response => {
+          console.log(response.data);
+          const token = response.data.token;
+          const userId = response.data.userId;
+          const roleId = response.data.roleId;
+          localStorage.setItem('token', token);
+          localStorage.setItem('userId', userId);
+          commit('auth_success', token);
+          commit('STORE_ROLEID', roleId);
+          commit('STORE_USERID', userId);
+          resolve(response)
+        })
+        .catch(err => {
+          commit('auth_error')
+          localStorage.removeItem('token')
+          reject(err)
+        })
+      })
+    },
+
+  },
+  getters: {
+    isLoggedIn: state => !!state.token,
+    authStatus: state => state.status,
   },
   modules: {
   }

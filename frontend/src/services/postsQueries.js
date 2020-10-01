@@ -1,5 +1,17 @@
 import http from "../http-common";
+// const token = this.$store.state.token;
+// const authConfig = {
+//     headers: {
+//         'Authorization': `Bearer ${token}`
+//     }
+// };
 
+// const contentConfig = {
+//     headers: {
+//         'Content-Type': 'multipart/form-data',
+//             'Authorization': `Bearer ${token}`
+//     }
+// }
 
 class postsQueries {
     getAll() {
@@ -20,7 +32,8 @@ class postsQueries {
     create(data) {
         return http.post("/posts", data, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                // 'Authorization': `Bearer ${token}`
             }
           });
     }

@@ -21,8 +21,10 @@ exports.createPost = (req, res, next) => {
         userId:req.body.userId,
         postTitle:req.body.postTitle,
         content:req.body.postContent,
-        image:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
+    if (req.file) {
+        post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    }
     console.log(post);
     //Sauvegarde dans la base de données
     Post.create(post, (err, data) => {
@@ -66,10 +68,17 @@ exports.createComment = (req, res, next) => {
 //Logique métier pour deletePost
 exports.deletePost = (req, res, next) => {
     Post.getOne(req.params.id, (err, data) => {
-        const filename = data.image.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
-    
-            Post.delete(req.params.id, (err, data) => {
+        if (req.body.image) {
+                    const filename = data.image.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err) => {
+                    if (err) {
+                        res.status(500).send({
+                            message: err
+                        })
+                        };
+            });
+        }
+        Post.delete(req.params.id, (err, data) => {
                 if (err) {
                     if (err,kind === "not_found") {
                         res.status(404).send({
@@ -82,7 +91,6 @@ exports.deletePost = (req, res, next) => {
                     }
                 } else res.send({ message: `Le post a été supprimé !`});
             });
-        })
     })
 };
 
