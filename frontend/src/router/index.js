@@ -7,6 +7,7 @@ import UserDetail from '../views/UserDetail.vue'
 import PostDetail from '../views/PostDetail.vue'
 import AddPost from '../views/AddPost.vue'
 import UserPosts from '../views/UserPosts.vue'
+import LastPosts from '../views/LastPosts.vue'
 import EditPost from '../views/EditPost.vue'
 import CreateUser from '../views/CreateUser.vue'
 import Login from '../views/Login.vue'
@@ -19,6 +20,14 @@ let router = new Router({
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    {
+      path:'/posts/mod',
+      name:'LastPosts',
+      component: LastPosts,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path:'/signup',

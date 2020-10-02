@@ -17,6 +17,9 @@ class postsQueries {
     getAll() {
         return http.get('/posts');
     }
+    getLastPosts() {
+        return http.get('/posts/mod');
+    }
     findByAuthor(userId) {
         return http.get(`/posts/user/${userId}`);
     }

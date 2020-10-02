@@ -3,6 +3,9 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
+        <div v-if="isMod && this.$store.state.userId != 0">
+          <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
+        </div>
         <div v-if="this.$store.state.userId != 0">
           <router-link :to="'/posts/user/' + this.$store.state.userId" class="nav-item">Voir mes messages postés</router-link> |
           <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
@@ -36,6 +39,7 @@
     data() {
       return {
         userId: this.$store.state.userId,
+        roleId: this.$store.state.roleId,
       }
     },
     methods: {
@@ -51,7 +55,14 @@
       logout() {
         this.$store.dispatch('resetState');
         this.loginPush();
-      }
+      },
+      isMod() {
+        if (this.$store.state.roleId == 1 || this.$store.state.roleId == 3) {
+          return true;
+        } else {
+          return false;
+        }
+      },
     },
     beforeMount(){
       this.loginPush();

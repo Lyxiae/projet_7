@@ -105,6 +105,17 @@ exports.getAllPosts = (req, res, next) => {
         })
     };
 
+    //Logique métier pour getAllPosts
+exports.getLastPosts = (req, res, next) => {
+    Post.getLast((err, data) => {
+        if (err)
+        res.status(500).send({
+            message: err.message || 'Erreur lors de la réception des posts'
+        });
+        else res.send(data);
+        })
+    };
+
     //Logique métier pour getComments
 exports.getComments = (req, res, next) => {
     Comment.getComments(req.params.id, (err, data) => {

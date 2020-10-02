@@ -42,6 +42,7 @@ export default {
             postsQueries.getAll()
             .then(response => {
               console.log(this.posts);
+              console.log(response);
               response.data.forEach((post) => {
                     post.date_posted = moment(post.date_posted).utc().format("DD-MM-YYYY à hh:mm:ss");
                     this.posts.push(post)

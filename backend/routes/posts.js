@@ -31,6 +31,9 @@ router.delete('/:id', auth, creatorRoleCheck, postsCtrl.deletePost);
 // Route GET pour afficher la liste des messages
 router.get('/', postsCtrl.getAllPosts);
 
+// Route GET pour afficher la liste des messages
+router.get('/mod', postsCtrl.getLastPosts);
+
 // Route GET pour afficher la liste des messages postés par un utilisateur
 router.get('/user/:userId', auth, postsCtrl.getUserPosts);
 
