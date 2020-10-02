@@ -25,8 +25,8 @@
         </div>
         <div class="post-comments">
             <h3>Commentaires</h3>
-            <div class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
-                <div class="post-comments-header">
+            <div :id="comment.id" class="post-comments-item my-3 rounded" v-for='comment in comments' :key="comment.id">
+                <div  class="post-comments-header">
                      #{{ comment.id }} - Posté le : {{ comment.date_posted }} par <router-link :to="'/profile/' + comment.userId">{{ comment.firstname + ' ' + comment.surname }}</router-link> 
                 </div>
                 <p v-html="comment.content">{{ comment.content }}</p>

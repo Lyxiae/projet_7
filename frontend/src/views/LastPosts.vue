@@ -6,10 +6,10 @@
         :key="post.id">
         <template>
             <div v-if="!post.postTitle.includes('Nouveau commentaire')" class="postlist-title">
-                <router-link class="postlist-title" :to="'/posts/' + post.id"># {{ post.postId }} - {{ post.postTitle }}</router-link> par {{ post.firstname }} {{ post.surname }}
+                <router-link class="postlist-title" :to="'/posts/' + post.postId"># {{ post.postId }} - {{ post.postTitle }}</router-link> par {{ post.firstname }} {{ post.surname }}
             </div>
             <div v-if="post.postTitle.includes('Nouveau commentaire')" class="postlist-title">
-                <span class="postlist-title" :to="'/posts/' + post.id">{{ post.postTitle }}</span> par {{ post.firstname }} {{ post.surname }}
+                <router-link class="postlist-title" :to="{path:'/posts/' + post.postId, hash: '#' + post.commentId}"># {{ post.commentId }} - {{ post.postTitle }}</router-link> par {{ post.firstname }} {{ post.surname }}
             </div>
         </template>
         <div class="postlist-date">

@@ -3,7 +3,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
-        <div v-if="isMod && this.$store.state.userId != 0">
+        <div v-if="this.$store.state.roleId == 3 || this.$store.state.roleId == 1">
           <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
         </div>
         <div v-if="this.$store.state.userId != 0">
@@ -42,6 +42,10 @@
         roleId: this.$store.state.roleId,
       }
     },
+    computed: {
+      // isAdmin : this.$store.state.roleId == 1,
+      // isMod : this.$store.state.roleId == 3
+    },
     methods: {
       updateId(){
           this.userId = this.$store.state.userId;
@@ -56,13 +60,13 @@
         this.$store.dispatch('resetState');
         this.loginPush();
       },
-      isMod() {
-        if (this.$store.state.roleId == 1 || this.$store.state.roleId == 3) {
-          return true;
-        } else {
-          return false;
-        }
-      },
+      // isMod() {
+      //   if (this.$store.state.roleId == 1 || this.$store.state.roleId == 3) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // },
     },
     beforeMount(){
       this.loginPush();
@@ -70,6 +74,7 @@
     mounted() {
       this.updateId();
       this.loginPush();
+
     }
   }
 </script>

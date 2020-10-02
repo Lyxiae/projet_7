@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const rolecheck = require('../middleware/rolecheck');
+const modcheck = require('../middleware/modcheck');
 const creatorRoleCheck = require('../middleware/creatorRoleCheck');
 
 //Importation des controllers
@@ -44,6 +44,6 @@ router.get('/:id', postsCtrl.getOnePost);
 router.get('/:id/comments', postsCtrl.getComments);
 
 //Route DELETE pour supprimer un commentaire créé
-router.delete('/:postId/comments/:id', auth, rolecheck, postsCtrl.deleteComment);
+router.delete('/:postId/comments/:id', auth, modcheck, postsCtrl.deleteComment);
 
 module.exports = router;

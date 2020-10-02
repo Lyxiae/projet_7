@@ -41,7 +41,7 @@ Post.getAll = result => {
 
 //Récupération de tous les posts
 Post.getLast = result => {
-    sql.query("(SELECT `posts`.`id` AS `postId`, `posts`.`postTitle`, `posts`.`date_posted` AS `postDate`, `users`.`id` AS `userId`, `users`.`surname`, `users`.`firstname` FROM `posts` INNER JOIN `users` ON `users`.`id` = `posts`.`userId`) UNION (SELECT `comments`.`id` AS `postId`, NULL AS `postTitle`,`comments`.`date_posted`,  `users`.`id` AS `userId`, `users`.`surname` AS `commentSurname`, `users`.`firstname` AS `commentFirstname` FROM `comments` INNER JOIN `users` ON `users`.`id` = `comments`.`userId`) ORDER BY `postDate` DESC;", (err, res) => { 
+    sql.query("(SELECT `posts`.`id` AS `postId`, NULL AS `commentId`, `posts`.`postTitle`, `posts`.`date_posted` AS `postDate`, `users`.`id` AS `userId`, `users`.`surname`, `users`.`firstname` FROM `posts` INNER JOIN `users` ON `users`.`id` = `posts`.`userId`) UNION (SELECT `comments`.`postId` AS `postId`, `comments`.`id` AS `commentId`, NULL AS `postTitle`,`comments`.`date_posted`,  `users`.`id` AS `userId`, `users`.`surname` AS `commentSurname`, `users`.`firstname` AS `commentFirstname` FROM `comments` INNER JOIN `users` ON `users`.`id` = `comments`.`userId`) ORDER BY `postDate` DESC;", (err, res) => { 
         if (err) {
             console.log('error: ', err);
             result(null, err);
