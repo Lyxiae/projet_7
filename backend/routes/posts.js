@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const rolecheck = require('../middleware/rolecheck');
+const creatorRoleCheck = require('../middleware/creatorRoleCheck');
 
 //Importation des controllers
 const postsCtrl = require('../controllers/posts');
@@ -21,10 +23,10 @@ router.get('/:id/like', postsCtrl.getReactions);
 router.post('/:id', auth, postsCtrl.createComment);
 
 // Route PUT pour modifier un post créé
-router.put('/:id', auth, multer, postsCtrl.modifyPost);
+router.put('/:id', auth, creatorRoleCheck, multer, postsCtrl.modifyPost);
 
 //Route DELETE pour supprimer un post créé (et ses commentaires)
-router.delete('/:id', auth, postsCtrl.deletePost);
+router.delete('/:id', auth, creatorRoleCheck, postsCtrl.deletePost);
 
 // Route GET pour afficher la liste des messages
 router.get('/', postsCtrl.getAllPosts);
@@ -38,7 +40,7 @@ router.get('/:id', postsCtrl.getOnePost);
 //Route GET pour afficher les commentaires d'un post
 router.get('/:id/comments', postsCtrl.getComments);
 
-//Route DELETE pour supprimer un post créé (et ses commentaires)
-router.delete('/:postId/comments/:id', auth, postsCtrl.deleteComment);
+//Route DELETE pour supprimer un commentaire créé
+router.delete('/:postId/comments/:id', auth, rolecheck, postsCtrl.deleteComment);
 
 module.exports = router;

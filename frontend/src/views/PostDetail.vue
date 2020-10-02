@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
-      roleId: this.$store.state.userId,
+      roleId: this.$store.state.roleId,
       post: [],
       comments: [],
       newComment: {
@@ -117,7 +117,8 @@ export default {
             });
         },
         deletePost() {
-            postsQueries.delete(this.post.id)
+            console.log(this.roleId);
+            postsQueries.delete(this.post.id, this.roleId, this.post.userId)
             .then(response => {
                 console.log(response.data);
                 this.$router.push('/');
@@ -165,7 +166,7 @@ export default {
         },
         
         deleteComment(postId, commentId) {
-            postsQueries.deleteComment(postId, commentId)
+            postsQueries.deleteComment(postId, commentId, this.roleId)
             .then(response => {
                 console.log(response.data);
                 this.comments = [];

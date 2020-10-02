@@ -40,21 +40,21 @@ class postsQueries {
     createComment(id, data) {
         return http.post(`/posts/${id}`, data);
     }
-    deleteComment(postId, id) {
-        return http.delete(`/posts/${postId}/comments/${id}`);
+    deleteComment(postId, id, roleId) {
+        return http.delete(`/posts/${postId}/comments/${id}?role=${roleId}`);
     }
     createReaction(id, data) {
         return http.post(`/posts/${id}/like`, data);
     }
-    update(id, data) {
-        return http.put(`/posts/${id}`, data, {
+    update(id, data, roleId) {
+        return http.put(`/posts/${id}?role=${roleId}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
           });
     }
-    delete(id) {
-        return http.delete(`/posts/${id}`);
+    delete(id, roleId, userId, postUserId) {
+        return http.delete(`/posts/${id}?role=${roleId}&postUserId=${postUserId}`);
     }
 
 }

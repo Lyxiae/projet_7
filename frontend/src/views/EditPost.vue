@@ -48,6 +48,7 @@ export default {
     },  
     data() {
         return {
+            roleId: this.$store.state.roleId,
             id:0,
             userId:this.$store.state.userId,
             title:"",
@@ -65,7 +66,7 @@ export default {
             payload.append("userId", this.userId);
             payload.append("postTitle", this.title);
             payload.append("postContent", this.body);
-            postsQueries.update(this.id, payload)
+            postsQueries.update(this.id, payload, this.roleId)
             .then(response => {
                 console.log(response.data);
                 this.$router.push(`/`);
