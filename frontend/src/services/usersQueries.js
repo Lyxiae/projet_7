@@ -24,8 +24,8 @@ class usersQueries {
     getUserReactions(id) {
         return http.get(`/auth/profile/reactions/${id}`);
     }
-    delete(id) {
-        return http.delete(`/auth/${id}`);
+    delete(id, roleId) {
+        return http.delete(`/auth/${id}?role=${roleId}`);
     }
 }
 

@@ -35,7 +35,7 @@ router.get('/', postsCtrl.getAllPosts);
 router.get('/mod', postsCtrl.getLastPosts);
 
 // Route GET pour afficher la liste des messages postés par un utilisateur
-router.get('/user/:userId', auth, postsCtrl.getUserPosts);
+router.get('/user/:userId', postsCtrl.getUserPosts);
 
 //Route GET pour afficher un post et ses commentaires
 router.get('/:id', postsCtrl.getOnePost);

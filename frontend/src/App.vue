@@ -38,8 +38,8 @@
     },    
     data() {
       return {
-        userId: this.$store.state.userId,
-        roleId: this.$store.state.roleId,
+        userId: 0,
+        roleId: 0,
       }
     },
     computed: {
@@ -48,16 +48,21 @@
     },
     methods: {
       updateId(){
-          this.userId = this.$store.state.userId;
-          console.log('userId updaté');
+          this.userId = sessionStorage.getItem('userId');
+          this.roleId = sessionStorage.getItem('roleId');
+          console.log('userId et roleId updaté');
         },
       loginPush(){
-        if (this.$store.state.userId == 0) {
+        var userId = sessionStorage.getItem('userId');
+        console.log(userId);
+        if ( userId == 0 || userId == null) {
           this.$router.push(`/login`).catch(()=>{});
         }
       },
       logout() {
         this.$store.dispatch('resetState');
+        var storage = window.sessionStorage;
+        storage.clear()
         this.loginPush();
       },
       // isMod() {
@@ -74,7 +79,10 @@
     mounted() {
       this.updateId();
       this.loginPush();
-
+      // window.onbeforeunload = function () {
+      //   var storage = window.sessionStorage;
+      //   storage.clear()
+      // }
     }
   }
 </script>

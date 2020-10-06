@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-// const bouncer = require('express-bouncer')(500, 900000);
+const bouncer = require('express-bouncer')(500, 900000);
+
+const admincheck = require('../middleware/admincheck');
 
 //Importation des logiques métier pour les routes
 const userCtrl = require('../controllers/user');
@@ -30,6 +32,6 @@ router.get('/profile/reactions/:id', userCtrl.getUserReactions);
 router.put('/:id', multer, userCtrl.update);
 
 //Route DELETE pour la suppression d'un utilisateur
-router.delete('/:id', userCtrl.deleteUser);
+router.delete('/:id', admincheck, multer, userCtrl.deleteUser);
 
 module.exports = router;

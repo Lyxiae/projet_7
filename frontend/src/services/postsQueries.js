@@ -1,17 +1,4 @@
 import http from "../http-common";
-// const token = this.$store.state.token;
-// const authConfig = {
-//     headers: {
-//         'Authorization': `Bearer ${token}`
-//     }
-// };
-
-// const contentConfig = {
-//     headers: {
-//         'Content-Type': 'multipart/form-data',
-//             'Authorization': `Bearer ${token}`
-//     }
-// }
 
 class postsQueries {
     getAll() {
@@ -36,7 +23,6 @@ class postsQueries {
         return http.post("/posts", data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                // 'Authorization': `Bearer ${token}`
             }
           });
     }
@@ -49,14 +35,14 @@ class postsQueries {
     createReaction(id, data) {
         return http.post(`/posts/${id}/like`, data);
     }
-    update(id, data, roleId) {
+    update(id, roleId, data, ) {
         return http.put(`/posts/${id}?role=${roleId}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
           });
     }
-    delete(id, roleId, userId, postUserId) {
+    delete(id, roleId, postUserId) {
         return http.delete(`/posts/${id}?role=${roleId}&postUserId=${postUserId}`);
     }
 

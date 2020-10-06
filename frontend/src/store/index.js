@@ -55,8 +55,9 @@ export default new Vuex.Store({
           const token = response.data.token;
           const userId = response.data.userId;
           const roleId = response.data.roleId;
-          localStorage.setItem('token', token);
-          localStorage.setItem('userId', userId);
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('userId', userId);
+          sessionStorage.setItem('roleId', roleId);
           commit('auth_success', token);
           commit('STORE_ROLEID', roleId);
           commit('STORE_USERID', userId);
@@ -64,7 +65,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           commit('auth_error')
-          localStorage.removeItem('token')
+          sessionStorage.removeItem('token')
           reject(err)
         })
       })

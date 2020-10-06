@@ -71,7 +71,7 @@ export default {
         },
         deleteUser() {
             if (this.roleId == 1) {
-                usersQueries.delete(this.$route.params.id)
+                usersQueries.delete(this.$route.params.id, this.roleId)
             .then(response => {
                 console.log(response.data);
                 this.$router.push('/');

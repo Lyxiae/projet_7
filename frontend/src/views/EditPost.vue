@@ -66,8 +66,9 @@ export default {
             payload.append("userId", this.userId);
             payload.append("postTitle", this.title);
             payload.append("postContent", this.body);
-            postsQueries.update(this.id, payload, this.roleId)
+            postsQueries.update(this.id, this.roleId, payload)
             .then(response => {
+                console.log(payload);
                 console.log(response.data);
                 this.$router.push(`/`);
             })
