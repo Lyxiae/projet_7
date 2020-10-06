@@ -75,12 +75,12 @@ export default {
     },
   data() {
     return {
-      userId: this.$store.state.userId,
-      roleId: this.$store.state.roleId,
+      userId: parseInt(sessionStorage.getItem('userId'), 10),
+      roleId: sessionStorage.getItem('roleId'),
       post: [],
       comments: [],
       newComment: {
-          userId: this.$store.state.userId,
+          userId: sessionStorage.getItem('userId'),
           content:"",
       },
       reactions: {

@@ -48,9 +48,9 @@ export default {
     },  
     data() {
         return {
-            roleId: this.$store.state.roleId,
+            roleId: sessionStorage.getItem('roleId'),
             id:0,
-            userId:this.$store.state.userId,
+            userId:sessionStorage.getItem('userId'),
             title:"",
             body:"",
             image:"",

@@ -24,7 +24,7 @@ export default {
         }
     },
     mounted() {
-        this.getUserData(this.$store.state.userId);
+        this.getUserData(sessionStorage.getItem('userId'));
     }
 
 }

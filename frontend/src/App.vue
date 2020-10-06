@@ -6,24 +6,24 @@
         <div v-if="this.$store.state.roleId == 3 || this.$store.state.roleId == 1">
           <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
         </div>
-        <div v-if="this.$store.state.userId != 0">
-          <router-link :to="'/posts/user/' + this.$store.state.userId" class="nav-item">Voir mes messages postés</router-link> |
+        <div v-if="this.userId != null">
+          <router-link :to="'/posts/user/' + this.userId" class="nav-item">Voir mes messages postés</router-link> |
           <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
         </div>
       </div>
       <div>
-        <router-link v-if="this.$store.state.userId != 0" to="/edituser" class="nav-item">Éditer mon profil</router-link>
-        <span v-if="this.$store.state.userId != 0" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
+        <router-link v-if="this.userId != null" to="/edituser" class="nav-item">Éditer mon profil</router-link>
+        <span v-if="this.userId != null" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
         <div v-else>
-          <router-link v-if="this.$store.state.userId == 0" to="/login" class="nav-item">Connexion</router-link> |
-          <router-link v-if="this.$store.state.userId == 0" to="/signup" class="nav-item">Inscription</router-link>
+          <router-link v-if="this.userId == null" to="/login" class="nav-item">Connexion</router-link> |
+          <router-link v-if="this.userId == null" to="/signup" class="nav-item">Inscription</router-link>
         </div>
       </div>
     </nav>
     <div class="container main-app">
       <div class="row">
-        <SideBar v-if="this.$store.state.userId != 0"/>
-        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.$store.state.userId == 0 }"><router-view/></div>
+        <SideBar v-if="this.userId != 0"/>
+        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.userId == null }"><router-view/></div>
       </div>
     </div>
   </div>
@@ -43,7 +43,6 @@
       }
     },
     computed: {
-      // isAdmin : this.$store.state.roleId == 1,
       // isMod : this.$store.state.roleId == 3
     },
     methods: {

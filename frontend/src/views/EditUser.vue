@@ -64,7 +64,7 @@ export default {
             if (document.getElementById('file').value) {
                 data.append("image", imagefile.files[0]);
             }
-            usersQueries.update(this.$store.state.userId, data)
+            usersQueries.update(sessionStorage.getItem('userId'), data)
             .then(response => {
                 console.log(response.data);
             })
@@ -84,7 +84,7 @@ export default {
             });
         },
         deleteUser() {
-            usersQueries.delete(this.$store.state.userId)
+            usersQueries.delete(sessionStorage.getItem('userId'))
             .then(response => {
                 console.log(response.data);
                 this.$router.push('/');
@@ -95,7 +95,7 @@ export default {
         }
     },
     mounted() {
-        this.getUserData(this.$store.state.userId);
+        this.getUserData(sessionStorage.getItem('userId'));
     }
 }
 </script>
