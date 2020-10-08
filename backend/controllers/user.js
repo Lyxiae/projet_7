@@ -54,11 +54,15 @@ exports.login = (req, res, next) => {
             console.log(result);
             console.log(result.id);
             let userId = result.id
+            const payload = {
+                "userId": userId,
+                "roleId": result.roleId
+            }
             res.status(200).json({
                 userId: result.id,
                 roleId: result.roleId,
                 token: jwt.sign(
-                    { userId: userId },
+                    payload,
                     `${process.env.JWT_KEY}`,
                     { expiresIn: '24h' }
                 )

@@ -20,13 +20,17 @@ export default {
         .then(response => {
             console.log(response.data);
             console.log(this.$store.state);  
-            axios.defaults.headers.common['Authorization'] = 'Bearer test';         
+            const token = this.$store.state.token;
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;      
             this.$router.push('/')
         })
         .catch(e => {
             console.log(e);
         });
 
+        },
+        emitUserData() {
+            
         }
     }
 }

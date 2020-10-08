@@ -3,56 +3,58 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
       <div class="navbar-nav mr-auto">
         <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
-        <div v-if="this.$store.state.roleId == 3 || this.$store.state.roleId == 1">
+        <div v-if="this.roleId == 3 || this.roleId == 1">
           <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
         </div>
-        <div v-if="this.userId != null">
+        <div v-if="userId != 0" >
           <router-link :to="'/posts/user/' + this.userId" class="nav-item">Voir mes messages postés</router-link> |
           <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
         </div>
       </div>
       <div>
-        <router-link v-if="this.userId != null" to="/edituser" class="nav-item">Éditer mon profil</router-link>
-        <span v-if="this.userId != null" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
+        <router-link v-if="userId != 0" to="/edituser" class="nav-item">Éditer mon profil</router-link>
+        <span v-if="userId != 0" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
         <div v-else>
-          <router-link v-if="this.userId == null" to="/login" class="nav-item">Connexion</router-link> |
-          <router-link v-if="this.userId == null" to="/signup" class="nav-item">Inscription</router-link>
+          <router-link v-if="userId == 0" to="/login" class="nav-item">Connexion</router-link> |
+          <router-link v-if="userId == 0" to="/signup" class="nav-item">Inscription</router-link>
         </div>
       </div>
     </nav>
     <div class="container main-app">
       <div class="row">
-        <SideBar v-if="this.userId != 0"/>
-        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.userId == null }"><router-view/></div>
+        <SideBar v-if="userId != 0"/>
+        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': userId == 0 }"><router-view/></div>
       </div>
     </div>
   </div>
 </template>
 <script>
   import SideBar from './components/SideBar'
+import { mapGetters } from 'vuex'
   export default {
     
     name: "App",
     components: {
-      'SideBar': SideBar
+      'SideBar': SideBar,
     },    
     data() {
       return {
-        userId: 0,
-        roleId: 0,
       }
     },
     computed: {
-      // isMod : this.$store.state.roleId == 3
+      ...mapGetters({
+        userId: 'getUserId',
+        roleId: 'getRoleId'
+      })
     },
     methods: {
       updateId(){
-          this.userId = sessionStorage.getItem('userId');
-          this.roleId = sessionStorage.getItem('roleId');
+          this.userId = this.$store.state.userId;
+          this.roleId = this.$store.state.roleId;
           console.log('userId et roleId updaté');
         },
       loginPush(){
-        var userId = sessionStorage.getItem('userId');
+        var userId = this.$store.state.userId;
         console.log(userId);
         if ( userId == 0 || userId == null) {
           this.$router.push(`/login`).catch(()=>{});
@@ -64,18 +66,12 @@
         storage.clear()
         this.loginPush();
       },
-      // isMod() {
-      //   if (this.$store.state.roleId == 1 || this.$store.state.roleId == 3) {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-      // },
     },
     beforeMount(){
       this.loginPush();
     },
     mounted() {
+      
       this.updateId();
       this.loginPush();
       // window.onbeforeunload = function () {

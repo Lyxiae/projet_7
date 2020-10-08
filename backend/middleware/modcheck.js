@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = (req, res, next) => {
-    const role = req.query.role;
-        // const role = new URLSearchParams(role);
+    const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, `${process.env.JWT_KEY}`);
+        const role = decodedToken.roleId;
         console.log(role);
         // console.log(req.params.role);
         if (role == 1 || role == 3) {

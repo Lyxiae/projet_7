@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      userId: this.$store.state.userId,
+      userId: sessionStorage.getItem('userId'),
       posts: [],
     }
   },

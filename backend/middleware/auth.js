@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
         console.log('UserID')
         console.log(userId);
         console.log(decodedToken);
-        console.log(roleId);
         if (typeof req.body.userId === 'string') {
             reqId = parseInt(reqId, 10);
         }
