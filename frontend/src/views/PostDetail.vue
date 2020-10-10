@@ -40,7 +40,7 @@
         <div class="add-comment">
             <div class="form-group container">
                 <label for="comment-content">Ajouter un commentaire</label>
-                <editor id="comment-content" v-model="newComment.content"
+                <editor id="comment-content-editor" :change="saveComment" v-model="newComment.content"
                     api-key="do9bmba4bf8mlrgeki054onbu8jv1wxpn1b1zvrx6wpn6bil"
                     :init="{
                         height: 300,
@@ -150,15 +150,21 @@ export default {
                 postId: this.post.id,
                 content: this.newComment.content
             };
+            // let tinymce_editor_id = 'comment-content-editor'; 
+        
+
             console.log(this.newComment);
             console.log(data);
             // this.comments.push(data)
             postsQueries.createComment(data.postId, data)
                 .then(response => {
                     this.newComment.id = response.data.id;
+                    
                     console.log(response.data);
                     this.comments = [];
                     this.getComments(this.$route.params.id);
+
+                    
                 })
                 .catch(e => {
                     console.log(e);

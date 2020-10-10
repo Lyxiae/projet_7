@@ -1,91 +1,60 @@
 import http from "../http-common";
-let token = sessionStorage.getItem('token');
-
 class postsQueries {
     getAll() {
-        return http.get('/posts',{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        return http.get('/posts');
     }
     getLastPosts() {
-        return http.get('/posts/mod',{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.get('/posts/mod');
     }
     findByAuthor(userId) {
-        return http.get(`/posts/user/${userId}`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.get(`/posts/user/${userId}`);
     }
     getOne(id) {
-        return http.get(`/posts/${id}`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.get(`/posts/${id}`);
     }
     getComments(id) {
-        return http.get(`/posts/${id}/comments`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.get(`/posts/${id}/comments`);
     }
     getReactions(id) {
-        return http.get(`/posts/${id}/like`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.get(`/posts/${id}/like`);
     }
     create(data) {
+        
         return http.post("/posts", data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + token
             }
           });
     }
     createComment(id, data) {
-        return http.post(`/posts/${id}`, data,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.post(`/posts/${id}`, data);
     }
     deleteComment(postId, id) {
-        return http.delete(`/posts/${postId}/comments/${id}`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.delete(`/posts/${postId}/comments/${id}`);
     }
     createReaction(id, data) {
-        return http.post(`/posts/${id}/like`, data,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        }
-        });
+        
+        return http.post(`/posts/${id}/like`, data,
+        );
     }
-    update(id, roleId, data, ) {
-        return http.put(`/posts/${id}?role=${roleId}`, data, {
+    update(id, data){
+        
+        return http.put(`/posts/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + token
             }
           });
     }
     delete(id, postUserId) {
+        
         return http.delete(`/posts/${id}`,{
-            headers: {
-            'Authorization': 'Bearer ' + token
-        },
          params: {
             postUserId: postUserId
         }

@@ -1,12 +1,14 @@
 import axios from "axios";
-// let token = sessionStorage.getItem('token');
 
 const http = axios.create({
   baseURL: "http://localhost:3000/api",
-  // headers: {
-  //   Authorization: 'Bearer ' + token
-  // }
 });
 
+// Attribue le header Authorization avec le token à toutes les requêtes axios
+http.interceptors.request.use(function (config) {
+  const token = sessionStorage.getItem('token');
+  config.headers.Authorization =  token ? `Bearer ${token}` : '';
+  return config;
+});
 
 export default http;

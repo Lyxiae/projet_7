@@ -2,28 +2,33 @@
   <div id="app">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
       <div class="navbar-nav mr-auto">
-        <router-link to="/" class="navbar-brand">Groupomania</router-link> | 
-        <div v-if="this.roleId == 3 || this.roleId == 1">
+        <div>
+          <router-link v-if="this.$store.state.userId != 0 || this.userId != null" to="/" class="navbar-brand">Groupomania</router-link>
+          </div>
+          <div>
+          <span v-if="this.$store.state.userId == 0 && this.userId == null" to="/" class="navbar-brand">Groupomania</span>
+          </div> | 
+        <div v-if="this.$store.state.roleId == 3 || this.$store.state.roleId == 1 || this.roleId == 3 || this.roleId == 1">
           <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
         </div>
-        <div v-if="userId != 0" >
-          <router-link :to="'/posts/user/' + this.userId" class="nav-item">Voir mes messages postés</router-link> |
+        <div v-if="this.$store.state.userId != 0 || this.userId != null" >
+          <router-link :to="'/posts/user/' + this.$store.state.userId" class="nav-item">Voir mes messages postés</router-link> |
           <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
         </div>
       </div>
       <div>
-        <router-link v-if="userId != 0" to="/edituser" class="nav-item">Éditer mon profil</router-link>
-        <span v-if="userId != 0" @click="logout" :change="updateId" class="nav-item logout">  Déconnexion</span>
+        <router-link v-if="this.$store.state.userId != 0 || this.userId != null" to="/edituser" class="nav-item">Éditer mon profil </router-link>
+        <span v-if="this.$store.state.userId != 0 || this.userId != null" @click="logout" class="nav-item logout">  Déconnexion</span>
         <div v-else>
-          <router-link v-if="userId == 0" to="/login" class="nav-item">Connexion</router-link> |
-          <router-link v-if="userId == 0" to="/signup" class="nav-item">Inscription</router-link>
+          <router-link v-if="this.$store.state.userId == 0 && this.userId == null" to="/login" class="nav-item">Connexion</router-link> |
+          <router-link v-if="this.$store.state.userId == 0 && this.userId == null" to="/signup" class="nav-item">Inscription</router-link>
         </div>
       </div>
     </nav>
     <div class="container main-app">
       <div class="row">
-        <SideBar v-if="userId != 0"/>
-        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': userId == 0 }"><router-view/></div>
+        <SideBar v-if="this.$store.state.userId != 0 || this.userId != null"/>
+        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.$store.state.userId != 0 || this.userId != null }"><router-view/></div>
       </div>
     </div>
   </div>
@@ -39,24 +44,20 @@ import { mapGetters } from 'vuex'
     },    
     data() {
       return {
+        userId: sessionStorage.getItem('userId'),
+        roleId: sessionStorage.getItem('roleId')
       }
     },
     computed: {
       ...mapGetters({
-        userId: 'getUserId',
-        roleId: 'getRoleId'
+        // userId: 'getUserId',
+        // roleId: 'getRoleId'
       })
     },
     methods: {
-      updateId(){
-          this.userId = this.$store.state.userId;
-          this.roleId = this.$store.state.roleId;
-          console.log('userId et roleId updaté');
-        },
+
       loginPush(){
-        var userId = this.$store.state.userId;
-        console.log(userId);
-        if ( userId == 0 || userId == null) {
+        if ( this.$store.state.userId == 0 && sessionStorage.getItem('userId') == null) {
           this.$router.push(`/login`).catch(()=>{});
         }
       },
@@ -65,14 +66,22 @@ import { mapGetters } from 'vuex'
         var storage = window.sessionStorage;
         storage.clear()
         this.loginPush();
+
       },
+      checkStore() {
+        if (this.$store.state.userId == 0 && sessionStorage.getItem('userId') != null) {
+          this.$store.state.userId == sessionStorage.getItem('userId');
+          this.$store.state.roleId == sessionStorage.getItem('roleId');
+          this.$store.state.token == sessionStorage.getItem('token');
+        }
+      }
     },
     beforeMount(){
-      this.loginPush();
     },
     mounted() {
       
-      this.updateId();
+      // this.updateId();
+      this.checkStore();
       this.loginPush();
       // window.onbeforeunload = function () {
       //   var storage = window.sessionStorage;

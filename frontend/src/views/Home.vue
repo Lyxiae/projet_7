@@ -53,8 +53,6 @@ export default {
                 console.log(e)
             });
         },
-        
-        
     },
   mounted() {
       this.getPosts();

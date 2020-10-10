@@ -66,11 +66,11 @@ export default {
             payload.append("userId", this.userId);
             payload.append("postTitle", this.title);
             payload.append("postContent", this.body);
-            postsQueries.update(this.id, this.roleId, payload)
+            postsQueries.update(this.id, payload)
             .then(response => {
                 console.log(payload);
                 console.log(response.data);
-                this.$router.push(`/`);
+                this.$router.push(`/posts/${this.id}`);
             })
             .catch(e => {
                 console.log(e);

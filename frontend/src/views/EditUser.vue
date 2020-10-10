@@ -67,6 +67,9 @@ export default {
             usersQueries.update(sessionStorage.getItem('userId'), data)
             .then(response => {
                 console.log(response.data);
+                this.$store.state.userId = sessionStorage.getItem('userId');
+            this.$store.state.roleId = sessionStorage.getItem('roleId');
+            this.$store.state.token = sessionStorage.getItem('token');
             })
             .catch(e => {
                 console.log(e);
