@@ -11,9 +11,8 @@ class usersQueries {
         return http.put(`/auth/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                
             }
-          });
+        });
     }
     getOneUser(id) {
         return http.get(`/auth/profile/${id}`);

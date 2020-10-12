@@ -1,73 +1,85 @@
 <script>
-// import usersQueries from "../services/usersQueries"
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-    name: 'Login',
-    data() {
-        return {
-            email:"",
-            password:""
-        }
-    },
-    methods: {
-        loginUser() {
-            let data = {
-                email: this.email,
-                password: this.password
-            };
-        this.$store.dispatch('login', data)
-        .then(response => {
-            console.log(response.data);
-            console.log(this.$store.state);  
-            const token = this.$store.state.token;
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;      
-            this.$router.push('/')
+  name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    loginUser() {
+      let data = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$store
+        .dispatch("login", data)
+        .then((response) => {
+          console.log(response.data);
+          console.log(this.$store.state);
+          const token = this.$store.state.token;
+          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          this.$router.push("/");
         })
-        .catch(e => {
-            console.log(e);
+        .catch((e) => {
+          console.log(e);
         });
-
-        },
-        emitUserData() {
-            
-        }
-    }
-}
+    },
+    emitUserData() {},
+  },
+};
 </script>
 
 <template>
-    <section>
-        <div class="post-form mt-5">
-            <div class="form-group row">
-                <label for="user-email" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="email" id ="user-email" placeholder="Email">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="user-password" class="col-sm-2 col-form-label">Mot de passe</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" v-model="password" id ="user-password" placeholder="Mot de passe">
-                </div>
-            </div>
-            <button class="btn btn-success" @click="loginUser">Se connecter</button>
+  <section>
+    <div class="post-form mt-5">
+      <div class="form-group row">
+        <label for="user-email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="email"
+            id="user-email"
+            placeholder="Email"
+          />
         </div>
-        <div class="container">
-            <p>Vous n'avez pas de compte ? <router-link to="/signup">Inscrivez-vous</router-link></p>
+      </div>
+      <div class="form-group row">
+        <label for="user-password" class="col-sm-2 col-form-label"
+          >Mot de passe</label
+        >
+        <div class="col-sm-10">
+          <input
+            type="password"
+            class="form-control"
+            v-model="password"
+            id="user-password"
+            placeholder="Mot de passe"
+          />
         </div>
-    </section>
-    
-    
+      </div>
+      <button class="btn btn-success" @click="loginUser">Se connecter</button>
+    </div>
+    <div class="container">
+      <p>
+        Vous n'avez pas de compte ?
+        <router-link to="/signup">Inscrivez-vous</router-link>
+      </p>
+    </div>
+  </section>
 </template>
 
 <style lang="scss">
-    a {
-        text-decoration:none;
-    }
+a {
+  text-decoration: none;
+}
 
-    .post-form {
-        width:80%;
-        margin:0 auto;
-    }
+.post-form {
+  width: 80%;
+  margin: 0 auto;
+}
 </style>

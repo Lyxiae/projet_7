@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from '../store/index'
 import Home from '../views/Home.vue'
 import EditUser from '../views/EditUser.vue'
 import UserDetail from '../views/UserDetail.vue'
@@ -68,18 +67,5 @@ let router = new Router({
     },
   ]
 }) 
-
-// router.beforeEach((to, from, next) => {
-//   if(to.matched.some(record => record.meta.requiresAuth)) {
-//     if (sessionStorage.getItem('userId') != null) {
-//       next()
-//       return
-//     }
-//     next('/login')
-//   } else {
-//     next()
-//   }
-// })
-
 export default router
 

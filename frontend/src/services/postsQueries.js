@@ -4,60 +4,60 @@ class postsQueries {
         return http.get('/posts');
     }
     getLastPosts() {
-        
+
         return http.get('/posts/mod');
     }
     findByAuthor(userId) {
-        
+
         return http.get(`/posts/user/${userId}`);
     }
     getOne(id) {
-        
+
         return http.get(`/posts/${id}`);
     }
     getComments(id) {
-        
+
         return http.get(`/posts/${id}/comments`);
     }
     getReactions(id) {
-        
+
         return http.get(`/posts/${id}/like`);
     }
     create(data) {
-        
+
         return http.post("/posts", data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
-          });
+        });
     }
     createComment(id, data) {
-        
+
         return http.post(`/posts/${id}`, data);
     }
     deleteComment(postId, id) {
-        
+
         return http.delete(`/posts/${postId}/comments/${id}`);
     }
     createReaction(id, data) {
-        
+
         return http.post(`/posts/${id}/like`, data,
         );
     }
-    update(id, data){
-        
+    update(id, data) {
+
         return http.put(`/posts/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
-          });
+        });
     }
     delete(id, postUserId) {
-        
-        return http.delete(`/posts/${id}`,{
-         params: {
-            postUserId: postUserId
-        }
+
+        return http.delete(`/posts/${id}`, {
+            params: {
+                postUserId: postUserId
+            }
         });
     }
 

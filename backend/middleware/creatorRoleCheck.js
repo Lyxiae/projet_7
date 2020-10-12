@@ -15,6 +15,6 @@ module.exports = (req, res, next) => {
     if (userId == req.body.userId || userId == postUserId || isMod) {
         next();
     } else {
-        res.status(403).json({error: error | 'Utilisateur non autorisé à effectuer cette requête !'});
+        res.status(403).json({ error: error | 'Utilisateur non autorisé à effectuer cette requête !' });
     }
 };

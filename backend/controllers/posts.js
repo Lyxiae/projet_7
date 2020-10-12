@@ -13,14 +13,11 @@ exports.createPost = (req, res, next) => {
             message: 'Le contenu de la requête ne doit pas être vide !'
         });
     }
-    console.log(req);
-    console.log(req.body);
-    console.log(req.file);
     //Création du post
     const post = new Post({
-        userId:req.body.userId,
-        postTitle:req.body.postTitle,
-        content:req.body.postContent,
+        userId: req.body.userId,
+        postTitle: req.body.postTitle,
+        content: req.body.postContent,
     });
     if (req.file) {
         post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -48,9 +45,9 @@ exports.createComment = (req, res, next) => {
     }
     //Création du post
     const comment = new Comment({
-        postId:req.body.postId,
-        userId:req.body.userId,
-        content:req.body.content,
+        postId: req.body.postId,
+        userId: req.body.userId,
+        content: req.body.content,
     });
 
     //Sauvegarde dans la base de données
@@ -69,28 +66,28 @@ exports.createComment = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
     Post.getOne(req.params.id, (err, data) => {
         if (req.body.image) {
-                    const filename = data.image.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, (err) => {
-                    if (err) {
-                        res.status(500).send({
-                            message: err
-                        })
-                        };
+            const filename = data.image.split('/images/')[1];
+            fs.unlink(`images/${filename}`, (err) => {
+                if (err) {
+                    res.status(500).send({
+                        message: err
+                    })
+                };
             });
         }
         Post.delete(req.params.id, (err, data) => {
-                if (err) {
-                    if (err,kind === "not_found") {
-                        res.status(404).send({
-                            message: `Le post n'existe pas ou plus.`
-                        });
-                    } else {
-                        res.status(500).send({
-                            message: 'Suppression impossible'
-                        });
-                    }
-                } else res.send({ message: `Le post a été supprimé !`});
-            });
+            if (err) {
+                if (err, kind === "not_found") {
+                    res.status(404).send({
+                        message: `Le post n'existe pas ou plus.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: 'Suppression impossible'
+                    });
+                }
+            } else res.send({ message: `Le post a été supprimé !` });
+        });
     })
 };
 
@@ -98,61 +95,59 @@ exports.deletePost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
     Post.getAll((err, data) => {
         if (err)
-        res.status(500).send({
-            message: err.message || 'Erreur lors de la réception des posts'
-        });
+            res.status(500).send({
+                message: err.message || 'Erreur lors de la réception des posts'
+            });
         else res.send(data);
-        })
-    };
+    })
+};
 
-    //Logique métier pour getAllPosts
+//Logique métier pour getAllPosts
 exports.getLastPosts = (req, res, next) => {
     Post.getLast((err, data) => {
         if (err)
-        res.status(500).send({
-            message: err.message || 'Erreur lors de la réception des posts'
-        });
+            res.status(500).send({
+                message: err.message || 'Erreur lors de la réception des posts'
+            });
         else res.send(data);
-        })
-    };
+    })
+};
 
-    //Logique métier pour getComments
+//Logique métier pour getComments
 exports.getComments = (req, res, next) => {
     Comment.getComments(req.params.id, (err, data) => {
         if (err)
-        res.status(500).send({
-            message: err.message || 'Erreur lors de la réception des commentaires'
-        });
+            res.status(500).send({
+                message: err.message || 'Erreur lors de la réception des commentaires'
+            });
         else res.send(data);
-        })
-    };
+    })
+};
 
-        //Logique métier pour getAllPosts
+//Logique métier pour getAllPosts
 exports.getReactions = (req, res, next) => {
-        let likes = [];
-        let dislikes = [];
-        let reactions = {};
+    let likes = [];
+    let dislikes = [];
+    let reactions = {};
     Reaction.getLikes(req.params.id, (err, data) => {
         if (err) {
             res.status(500).send({
                 message: err.message || 'Erreur lors de la réception des likes'
             });
         }
-        
+
         else {
             likes.push(data);
-        console.log("data likes ajoutée");
-        console.log(likes);
-        return likes
-        } 
+            return likes
+        }
 
     })
 
     Reaction.getDislikes(req.params.id, (err, data) => {
         if (err)
-        res.status(500).send({
-            message: err.message || 'Erreur lors de la réception des dislikes'
-        });
+            res.status(500).send({
+                message: err.message || 'Erreur lors de la réception des dislikes'
+            });
         else {
             dislikes.push(data);
             console.log("data dislikes ajoutée");
@@ -161,15 +156,15 @@ exports.getReactions = (req, res, next) => {
             reactions.dislikes = dislikes.flat(1);
             console.log(reactions);
             res.send(reactions);
-        } 
+        }
     })
-    };
+};
 
-    //Logique métier pour deletePost
+//Logique métier pour deletePost
 exports.deleteComment = (req, res, next) => {
     Comment.delete(req.params.id, (err, data) => {
         if (err) {
-            if (err,kind === "not_found") {
+            if (err, kind === "not_found") {
                 res.status(404).send({
                     message: `Le commentaire n'existe pas ou plus.`
                 });
@@ -178,7 +173,7 @@ exports.deleteComment = (req, res, next) => {
                     message: 'Suppression impossible'
                 });
             }
-        } else res.send({ message: `Le commentaire a été supprimé !`});
+        } else res.send({ message: `Le commentaire a été supprimé !` });
     });
 };
 
@@ -196,10 +191,10 @@ exports.getUserPosts = (req, res, next) => {
                 });
             }
         } else {
-             res.send(data);
-            }
-        })
-    };
+            res.send(data);
+        }
+    })
+};
 
 //Logique métier pour getOnePost
 exports.getOnePost = (req, res, next) => {
@@ -215,7 +210,7 @@ exports.getOnePost = (req, res, next) => {
                 });
             }
         } else {
-             res.send(data);
+            res.send(data);
         }
     })
 };
@@ -229,10 +224,9 @@ exports.modifyPost = (req, res, next) => {
         });
     }
     const post = new Post({
-        userId:req.body.userId,
-        postTitle:req.body.postTitle,
-        content:req.body.postContent,
-        
+        userId: req.body.userId,
+        postTitle: req.body.postTitle,
+        content: req.body.postContent,
     });
     if (req.file) {
         Post.getOne(req.params.id, (err, data) => {
@@ -240,23 +234,23 @@ exports.modifyPost = (req, res, next) => {
             if (data.image) {
                 const filename = data.image.split('/images/')[1];
                 fs.unlink(`images/${filename}`, (err) => {
-                if (err) {
-                    res.status(500).send({
-                        message: err
-                    })
+                    if (err) {
+                        res.status(500).send({
+                            message: err
+                        })
                     };
-            });
+                });
             }
         });
         post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
-    
+
     Post.update(req.params.id, post, (err, data) => {
         console.log(post);
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message:  `Ce post n'existe pas ou plus.`
+                    message: `Ce post n'existe pas ou plus.`
                 });
             } else {
                 res.status(500).send({
@@ -270,7 +264,6 @@ exports.modifyPost = (req, res, next) => {
 };
 
 //Logique métier pour likeSystem
-
 exports.likeSystem = (req, res, next) => {
     if (!req.body) {
         res.status(400).send({
@@ -282,7 +275,7 @@ exports.likeSystem = (req, res, next) => {
             if (err) {
                 if (err.kind === 'not_found') {
                     res.status(404).send({
-                        message:  `Ce post n'existe pas ou plus.`
+                        message: `Ce post n'existe pas ou plus.`
                     });
                 } else {
                     res.status(500).send({
@@ -298,7 +291,7 @@ exports.likeSystem = (req, res, next) => {
     if (req.body.reaction === 3) {
         Reaction.cancel(req, (err, data) => {
             if (err) {
-                if (err,kind === "not_found") {
+                if (err, kind === "not_found") {
                     res.status(404).send({
                         message: `Le post n'existe pas ou plus.`
                     });
@@ -307,7 +300,7 @@ exports.likeSystem = (req, res, next) => {
                         message: 'Suppression impossible'
                     });
                 }
-            } else res.send({ message: `La réaction a été supprimée !`});
+            } else res.send({ message: `La réaction a été supprimée !` });
         })
     }
 }
