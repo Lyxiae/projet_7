@@ -1,15 +1,34 @@
+<template>
+    <div class="sidebar col-2 d-none d-md-block">
+        <div class="sidebar-content">
+            <div class="user-avatar">
+                <img :src="image" alt="Avatar de l'utilisateur"/>
+            </div>
+            <p>Bienvenue, 
+                <br><strong>{{surname + ' ' + firstname}}</strong> !
+                
+            </p>
+        </div>
+    </div>
+</template>
+
 <script>
 import usersQueries from "../services/usersQueries"
+import { mapState } from 'vuex'
 export default {
     name: 'SideBar',
     data() {
         return {
-            user: {
-                surname:'',
-                firstname:'',
-                image:'',
-            }
         }
+    },
+    computed: {
+      ...mapState({
+        userId: 'userId',
+        roleId: 'roleId',
+        surname: 'surname',
+        firstname: 'firstname',
+        image: 'image'
+        }),
     },
     methods: {
         getUserData(id) {
@@ -30,19 +49,6 @@ export default {
 }
 </script>
 
-<template>
-    <div class="sidebar col-2 d-none d-md-block">
-        <div class="sidebar-content">
-            <div class="user-avatar">
-                <img :src="user.image" alt="Avatar de l'utilisateur"/>
-            </div>
-            <p>Bienvenue, 
-                <br><strong>{{user.surname + ' ' + user.firstname}}</strong> !
-                
-            </p>
-        </div>
-    </div>
-</template>
 
 <style lang="scss">
     a {

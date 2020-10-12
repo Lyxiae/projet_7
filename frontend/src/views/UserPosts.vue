@@ -11,6 +11,9 @@
           <small class="text-muted">Posté le : {{ post.date_posted }}</small>
         </div>
       </div>
+      <div class="postlist-item" v-if="this.posts.length == 0">
+        <p>Vous n'avez pas encore posté de message sur notre réseau.</p>
+      </div>
     </section>
     
   </div>

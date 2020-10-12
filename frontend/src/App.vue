@@ -1,41 +1,54 @@
 <template>
   <div id="app">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-custom">
-      <div class="navbar-nav mr-auto">
+      
         <div>
-          <router-link v-if="this.$store.state.userId != 0 || this.userId != null" to="/" class="navbar-brand">Groupomania</router-link>
-          </div>
-          <div>
-          <span v-if="this.$store.state.userId == 0 && this.userId == null" to="/" class="navbar-brand">Groupomania</span>
-          </div> | 
-        <div v-if="this.$store.state.roleId == 3 || this.$store.state.roleId == 1 || this.roleId == 3 || this.roleId == 1">
-          <router-link to="/posts/mod" class="nav-item">Dernières interactions</router-link> |
+          <router-link v-if="userId != 0" to="/" class="navbar-brand">Groupomania</router-link>
         </div>
-        <div v-if="this.$store.state.userId != 0 || this.userId != null" >
-          <router-link :to="'/posts/user/' + this.$store.state.userId" class="nav-item">Voir mes messages postés</router-link> |
-          <router-link to="/addpost" class="nav-item">Poster un message</router-link> 
+        <div>
+          <span v-if="userId == 0" to="/" class="navbar-brand">Groupomania</span>
+        </div> | 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item" v-if="roleId == 3 || roleId == 1">
+              <router-link to="/posts/mod" >Dernières interactions</router-link>
+            </li>
+            <li class="nav-item" v-if="userId != 0">
+              <router-link :to="'/posts/user/' + userId" class="nav-item">Mes messages</router-link>
+            </li>
+            <li class="nav-item" v-if="userId != 0">
+              <router-link to="/addpost" class="nav-item">Nouveau post</router-link> 
+            </li>
+            <li class="nav-item" v-if="userId != 0">
+                <router-link to="/edituser">Éditer mon profil </router-link>
+            </li>
+            <li class="nav-item" v-if="userId != 0">
+              <span @click="logout" class="nav-item logout">Déconnexion</span> 
+            </li>
+            <li class="nav-item" v-if="userId === 0">
+              <router-link  to="/login" class="nav-item">Connexion</router-link>
+            </li>
+            <li class="nav-item" v-if="userId === 0">
+              <router-link to="/signup">Inscription</router-link>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div>
-        <router-link v-if="this.$store.state.userId != 0 || this.userId != null" to="/edituser" class="nav-item">Éditer mon profil </router-link>
-        <span v-if="this.$store.state.userId != 0 || this.userId != null" @click="logout" class="nav-item logout">  Déconnexion</span>
-        <div v-else>
-          <router-link v-if="this.$store.state.userId == 0 && this.userId == null" to="/login" class="nav-item">Connexion</router-link> |
-          <router-link v-if="this.$store.state.userId == 0 && this.userId == null" to="/signup" class="nav-item">Inscription</router-link>
-        </div>
-      </div>
     </nav>
     <div class="container main-app">
       <div class="row">
-        <SideBar v-if="this.$store.state.userId != 0 || this.userId != null"/>
-        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': this.$store.state.userId != 0 || this.userId != null }"><router-view/></div>
+        <SideBar v-if="userId != 0"/>
+        <div class="col-md-10 py-3" v-bind:class="{ 'col-12': userId != 0 }"><router-view/></div>
       </div>
     </div>
   </div>
 </template>
 <script>
   import SideBar from './components/SideBar'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
+
   export default {
     
     name: "App",
@@ -44,20 +57,18 @@ import { mapGetters } from 'vuex'
     },    
     data() {
       return {
-        userId: sessionStorage.getItem('userId'),
-        roleId: sessionStorage.getItem('roleId')
+
       }
     },
     computed: {
-      ...mapGetters({
-        // userId: 'getUserId',
-        // roleId: 'getRoleId'
-      })
+      ...mapState({
+        userId: 'userId',
+        roleId: 'roleId'}),
     },
     methods: {
 
       loginPush(){
-        if ( this.$store.state.userId == 0 && sessionStorage.getItem('userId') == null) {
+        if ( this.userId == 0) {
           this.$router.push(`/login`).catch(()=>{});
         }
       },
@@ -76,11 +87,7 @@ import { mapGetters } from 'vuex'
         }
       }
     },
-    beforeMount(){
-    },
     mounted() {
-      
-      // this.updateId();
       this.checkStore();
       this.loginPush();
       // window.onbeforeunload = function () {
@@ -123,8 +130,6 @@ body {
 nav {
   padding: 30px;
   align-content:center;
-  width:100%;
-  height:60px;
   .navbar-nav {
     align-content:center;
     align-items:center;

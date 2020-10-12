@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <input type="submit" class="btn btn-success" @click="updateUser" value="Mettre à jour"/>
+            <button class="btn btn-success" @click.prevent.once="updateUser">Modifier</button>
             <button class="btn btn-danger" @click="deleteUser">Supprimer mon compte</button>
         </form>
         
@@ -68,8 +68,10 @@ export default {
             .then(response => {
                 console.log(response.data);
                 this.$store.state.userId = sessionStorage.getItem('userId');
-            this.$store.state.roleId = sessionStorage.getItem('roleId');
-            this.$store.state.token = sessionStorage.getItem('token');
+                this.$store.state.roleId = sessionStorage.getItem('roleId');
+                this.$store.state.token = sessionStorage.getItem('token');
+                this.$store.dispatch('updateUser', sessionStorage.getItem('userId'));
+                this.$router.push('/');
             })
             .catch(e => {
                 console.log(e);

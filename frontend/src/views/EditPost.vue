@@ -30,7 +30,7 @@
             />
         </div>
         
-        <button class="btn btn-success" @click="updatePost">Modifier</button>
+        <button class="btn btn-success" @click.prevent.once="updatePost">Modifier</button>
     </form>
 </section>
     

@@ -57,7 +57,7 @@
                     }"
                 />
             </div>
-            <button class="btn btn-success" @click.once.prevent="saveComment" :change="getComments">Poster votre commentaire</button>
+            <button class="btn btn-success" @click.prevent="saveComment" :change="getComments">Poster votre commentaire</button>
         </div>
     </div>
 </template>
@@ -163,7 +163,7 @@ export default {
                     console.log(response.data);
                     this.comments = [];
                     this.getComments(this.$route.params.id);
-
+                    this.newComment.content = '';
                     
                 })
                 .catch(e => {
