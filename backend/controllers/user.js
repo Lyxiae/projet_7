@@ -56,15 +56,18 @@ exports.login = (req, res, next) => {
                         "userId": userId,
                         "roleId": result.roleId
                     }
-                    res.status(200).json({
-                        userId: result.id,
-                        roleId: result.roleId,
-                        token: jwt.sign(
-                            payload,
+                    User.getOneId(userId, (err, data) => {
+                        res.status(200).json({
+                            userObject: data,
+                            user:result.id,
+                            roleId: result.roleId,
+                            token: jwt.sign(
+                                payload,
                             `${process.env.JWT_KEY}`,
                             { expiresIn: '24h' }
-                        )
-                    });
+                            )
+                        });
+                    })
 
                 })
                 .catch(error => res.status(500).json({ error }));

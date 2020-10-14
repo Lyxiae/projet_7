@@ -57,35 +57,30 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('auth_request')
         usersQueries.login(data)
-          .then(response => {
-            console.log(response.data);
-            let userdata = {
-              token: response.data.token,
-              userId: response.data.userId,
-              roleId: response.data.roleId,
-              surname: '',
-              firstname: '',
-              image: ''
-            };
-            //Store info in sessionStorage
-            sessionStorage.setItem('token', userdata.token);
-            sessionStorage.setItem('userId', userdata.userId);
-            sessionStorage.setItem('roleId', userdata.roleId);
-            usersQueries.getOneUser(response.data.userId)
-              .then(response => {
-                userdata.surname = response.data.surname;
-                userdata.firstname = response.data.firstname;
-                userdata.image = response.data.image;
-                commit('STORE_USERDATA', userdata);
-                axios.defaults.headers.common['Authorization'] = 'Bearer' + userdata.token;
-                resolve(response)
-              })
-          })
-          .catch(err => {
-            commit('auth_error')
-            sessionStorage.removeItem('token')
-            reject(err)
-          })
+        .then(response => {
+          console.log(response.data);
+          let userdata = {
+            token: response.data.token,
+            userId: response.data.userId,
+            roleId: response.data.roleId,
+            surname: response.data.userObject.surname,
+            firstname: response.data.userObject.firstname,
+            image: response.data.userObject.image
+          };
+          //Store info in sessionStorage
+          sessionStorage.setItem('token', userdata.token);
+          sessionStorage.setItem('userId', userdata.userId);
+          sessionStorage.setItem('roleId', userdata.roleId);
+          commit('STORE_USERDATA', userdata);
+          axios.defaults.headers.common['Authorization'] = 'Bearer' + userdata.token;
+          resolve(response)
+        })
+        .catch(err => {
+          alert('Les informations fournies ne permettent pas de vous authentifier !')
+          commit('auth_error')
+          sessionStorage.removeItem('token')
+          reject(err)
+        })
       })
     },
 

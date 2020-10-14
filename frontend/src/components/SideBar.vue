@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import usersQueries from "../services/usersQueries";
 import { mapState } from "vuex";
 export default {
   name: "SideBar",
@@ -27,22 +26,6 @@ export default {
       firstname: "firstname",
       image: "image",
     }),
-  },
-  methods: {
-    getUserData(id) {
-      usersQueries
-        .getOneUser(id)
-        .then((response) => {
-          this.user = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.getUserData(sessionStorage.getItem("userId"));
   },
 };
 </script>
