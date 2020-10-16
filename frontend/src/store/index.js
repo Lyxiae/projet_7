@@ -61,7 +61,7 @@ export default new Vuex.Store({
           console.log(response.data);
           let userdata = {
             token: response.data.token,
-            userId: response.data.userId,
+            userId: response.data.user,
             roleId: response.data.roleId,
             surname: response.data.userObject.surname,
             firstname: response.data.userObject.firstname,
@@ -76,7 +76,6 @@ export default new Vuex.Store({
           resolve(response)
         })
         .catch(err => {
-          alert('Les informations fournies ne permettent pas de vous authentifier !')
           commit('auth_error')
           sessionStorage.removeItem('token')
           reject(err)

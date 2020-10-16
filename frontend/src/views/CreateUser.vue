@@ -63,6 +63,7 @@
         />
       </div>
     </div>
+    <p class="signup-error" id="sign-error" v-if="this.error == 1">{{this.errortxt}}</p>
     <button class="btn btn-success" @click="saveUser">S'inscrire</button>
   </div>
 </template>
@@ -74,6 +75,8 @@ export default {
   name: "CreateUser",
   data() {
     return {
+      error: 0,
+      errortxt:'',
       user: {
         surname: "",
         firstname: "",
@@ -101,6 +104,8 @@ export default {
           this.$router.push("/login");
         })
         .catch((e) => {
+          this.error = 1;
+          this.errortxt = e.response.data.error;
           console.log(e);
         });
     },
@@ -117,5 +122,10 @@ a {
 .post-form {
   width: 80%;
   margin: 0 auto;
+}
+
+.signup-error {
+  color:red;
+  font-weight:600;
 }
 </style>

@@ -106,8 +106,7 @@ export default {
         });
     },
     getUserData(id) {
-      usersQueries
-        .getOneUser(id)
+      usersQueries.getOneUser(id)
         .then((response) => {
           this.user = response.data;
           this.user.birthday = moment(this.user.birthday)
@@ -131,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    this.getUserData(sessionStorage.getItem("userId"));
+    this.getUserData(this.$store.state.userId);
   },
 };
 </script>
