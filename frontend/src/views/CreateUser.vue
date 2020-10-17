@@ -63,7 +63,7 @@
         />
       </div>
     </div>
-    <p class="signup-error" id="sign-error" v-if="this.error == 1">{{this.errortxt}}</p>
+    <p class="signup-error" id="sign-error" v-if="error">{{this.error}}</p>
     <button class="btn btn-success" @click="saveUser">S'inscrire</button>
   </div>
 </template>
@@ -75,8 +75,7 @@ export default {
   name: "CreateUser",
   data() {
     return {
-      error: 0,
-      errortxt:'',
+      error: null,
       user: {
         surname: "",
         firstname: "",
@@ -100,12 +99,12 @@ export default {
       usersQueries
         .create(data)
         .then((response) => {
+          this.error = null;
           this.user.id = response.data.userId;
           this.$router.push("/login");
         })
         .catch((e) => {
-          this.error = 1;
-          this.errortxt = e.response.data.error;
+          this.error = e.response.data.error;
           console.log(e);
         });
     },

@@ -24,10 +24,12 @@ exports.signup = (req, res, next) => {
             //Enregistre l'objet user avec renvoi d'erreur si ça ne fonctionne pas, et statut 201 de création si ça fonctionne
             User.create(user, (err, data) => {
                 if (err) {
-                    res.status(500).send({
-                        message: err.message || 'Une erreur est apparue lors de la création du user'
-                    });
-                    return;
+                    if (err.code == 'ER_DUP_ENTRY') {
+                        return res.status(401).json({
+                            error: 'Cet utilisateur existe déjà'
+                        });
+                    }
+                    
                 }
                 res.send(data)
             });
@@ -41,10 +43,9 @@ exports.login = (req, res, next) => {
     User.getOne(req.body.email, (err, result) => {
         if (!result) {
             console.log("Utilisateur non trouvé");
-            res.status(404).send({
-                message: "Utilisateur non trouvé"
-            });
-            return;
+            return res.status(401).json({
+                error: "Utilisateur non trouvé"
+            });  
         } else {
             bcrypt.compare(req.body.password, result.password)
                 .then(valid => {

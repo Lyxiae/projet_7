@@ -15,13 +15,12 @@ const User = function(user) {
 User.create = (newUser, result) => {
     sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
         if (err) {
-            console.log('error: ', err);
             result(err, null);
             return;
+        } else {
+            result(null, {id: res.id, ...newUser});
         }
-
-        console.log('Utilisateur ajouté !');
-        result(null, {id: res.id, ...newUser});
+        
     })
 };
 

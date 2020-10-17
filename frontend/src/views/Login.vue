@@ -27,7 +27,7 @@
           />
         </div>
       </div>
-      <p class="login-error" v-if="this.error == 1">Les informations fournies ne permettent pas de vous identifier.</p>
+      <p class="login-error" v-if="error">{{error}}</p>
       <button class="btn btn-success" @click="loginUser">Se connecter</button>
     </div>
     <div class="container">
@@ -48,7 +48,7 @@ export default {
     return {
       email: "",
       password: "",
-      error: 0
+      error: null
     };
   },
   methods: {
@@ -67,8 +67,7 @@ export default {
           this.$router.push("/");
         })
         .catch((e) => {
-          this.error = 1;
-          console.log(e);
+          this.error = e.response.data.error;
         });
     },
     emitUserData() {},
