@@ -119,10 +119,13 @@ export default {
     },
     deleteUser() {
       usersQueries
-        .delete(sessionStorage.getItem("userId"))
+        .delete(sessionStorage.getItem("userId"), sessionStorage.getItem("roleId"))
         .then((response) => {
           console.log(response.data);
-          this.$router.push("/");
+          this.$store.dispatch("resetState");
+          var storage = window.sessionStorage;
+          storage.clear();
+          this.$router.push("/login");
         })
         .catch((e) => {
           console.log(e);
