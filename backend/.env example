@@ -1,0 +1,5 @@
+JWT_KEY=Your secret key here
+DB_HOST=Your database host here
+DB_USER=Your database username here
+DB_PASS=Your database password here
+DB=Your database name here
