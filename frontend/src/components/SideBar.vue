@@ -2,7 +2,9 @@
   <div class="sidebar col-2 d-none d-md-block">
     <div class="sidebar-content">
       <div class="user-avatar">
-        <img :src="image" alt="Avatar de l'utilisateur" />
+        
+        <img v-if="image" :src="image" alt="Avatar de l'utilisateur" />
+        <img v-else src="images\worker.png" alt="Avatar de l'utilisateur" />
       </div>
       <p>
         Bienvenue, <br /><strong>{{ surname + " " + firstname }}</strong> !

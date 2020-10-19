@@ -5,5 +5,5 @@ export default {
     status:'',
     surname:'',
     firstname:'',
-    image:''
+    image:'frontend/public/images/worker.png'
 }
